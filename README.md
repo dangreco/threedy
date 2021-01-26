@@ -1,6 +1,10 @@
-![Screenshot](https://github.com/dangreco/threedy/raw/master/screenshot.png)
 
 # Threedy
+## Home Asssistant card for 3D printers (via OctoPrint integration)
+
+
+![Screenshot](https://github.com/dangreco/threedy/raw/master/screenshot.png)
+
 ## Home Asssistant card for 3D printers (via OctoPrint integration)
 
 
