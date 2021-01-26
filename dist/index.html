@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <script>
+
+            function setHass()
+            {
+                document.getElementsByTagName('threedy-card')[0].hass = {
+                    states: {
+                        'sensor.ender_3_v2_current_state' : {
+                            state: "Printing"
+                        },
+                        'sensor.ender_3_v2_job_percentage' : {
+                            state: 52.12
+                        },
+                        'sensor.ender_3_v2_actual_tool0_temp' : {
+                            state: 214.7,
+                            attributes: {
+                                unit_of_measurement: "°C"
+                            }
+                        },
+                        'sensor.ender_3_v2_actual_bed_temp' : {
+                            state: 65.1,
+                            attributes: {
+                                unit_of_measurement: "°C"
+                            }
+                        },
+                        'sensor.ender_3_v2_time_elapsed' : {
+                            state: 5734,
+                        },
+                        'sensor.ender_3_v2_time_remaining' : {
+                            state: 5734,
+                        },
+                    }
+                }
+            }
+
+            function setConfig()
+            {
+                document.getElementsByTagName('threedy-card')[0].setConfig({
+                    type: 'custom:threedy-card',
+                    base_entity: 'sensor.ender_3_v2',
+                    name: "Ender 3 v2",
+                    theme: "Neumorphic",
+                    scale: 0.85,
+                    printer_type: 'I3',
+                    monitored: [
+                        "Status",
+                        "Hotend",
+                        "Bed",
+                        "Elapsed",
+                        "ETA"
+                    ]
+                })
+            }
+
+            function load()
+            {
+                setHass();
+                setConfig();
+            }
+
+        </script>
+
+        <style>
+
+            :root {
+                --primary-background-color: #ffffff;
+                --primary-text-color: #282828;
+            }
+
+            html, body {
+                margin: 0;
+                background-color: #ffffff;
+                font-family: 'Assistant', sans-serif;
+            }
+
+            body {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .FauxColumn {
+                width: 492px;
+            }
+
+            #Loader {
+                position: fixed;
+                top: 16px;
+                left: 16px;
+            }
+
+        </style>
+
+        <script src='./bundle.js'></script>
+
+    </head>
+
+    <body id="root">
+
+        <div class="FauxColumn">
+            <threedy-card>
+
+            </threedy-card>
+        </div>
+
+        <button id="Loader" onclick="load()">
+            Load Data
+        </button>
+
+    </body>
+
+</html>

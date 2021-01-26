@@ -1,0 +1,71 @@
+.I3 {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.Scalable {
+
+    position: relative;
+}
+
+.Frame {
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+    background-color: #777777;
+    position: absolute;
+}
+
+.Hole {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #282828;
+    border-radius: 8px;
+}
+
+.Build {
+    background-color: black;
+    box-sizing: border-box;
+    border-radius: 8px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+}
+
+.BuildPlate {
+    box-sizing: border-box;
+    border-radius: 8px;
+    position: absolute;
+    background-color: #999999;
+    height: 8px;
+}
+
+.XAxis {
+    position: absolute;
+    border-radius: 8px;
+    background-color: #999999;
+}
+
+.Print {
+    background-color: #eeeeee;
+    width: 100%;
+}
+
+.Stepper {
+    background-color: #aaaaaa;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.Track {
+    position: relative;
+}
