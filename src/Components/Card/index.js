@@ -19,14 +19,16 @@ const Card = ({ }) => {
     const state = hass.states[`${config.base_entity}_current_state`].state
     const hidden = state !== 'Printing'
     const statusColor = state === 'Printing' ? "#4caf50" : state === "Unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107" 
+    const borderRadius = styles[theme].borderRadius;
 
     return (
         <motion.div
-            animate={{ borderRadius: hidden ? 16 : 32 }}
+            animate={{ borderRadius: hidden ? borderRadius : borderRadius * 2 }}
             transition={{ ease: "easeInOut", duration: 0.25 }}
             style={{
                 ...styles.Card,
-                ...styles[theme]
+                ...styles[theme],
+                fontFamily: config.font || 'sans-serif'
             }}
         >
             <div style={{ ...styles.Root }}>
@@ -47,7 +49,7 @@ const Card = ({ }) => {
                     <div style={{ ...styles.Section }}>
                         <PrinterView />
                     </div>
-                    <div style={{ ...styles.Section, paddingLeft: 32, paddingRight: 32 }}>
+                    <div style={{ ...styles.Section, paddingLeft: 16, paddingRight: 32 }}>
                         <Stats />
                     </div>
                 </motion.div>

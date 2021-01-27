@@ -16,6 +16,8 @@ const Stat = ({ condition }) => {
         config
     } = useContext(ThreedyContext);
 
+    const round = config.round === undefined ? true : config.round;
+
     const entityEnding = (() => {
         switch (condition) {
             case 'Status':
@@ -56,9 +58,9 @@ const Stat = ({ condition }) => {
             case 'Elapsed':
                 return format_seconds_elapsed(entity.state)
             case 'Hotend':
-                return `${entity.state}${entity.attributes.unit_of_measurement}`
+                return `${round ? Math.round(entity.state) : entity.state}${entity.attributes.unit_of_measurement}`
             case 'Bed':
-                return `${entity.state}${entity.attributes.unit_of_measurement}`
+                return `${round ? Math.round(entity.state) : entity.state}${entity.attributes.unit_of_measurement}`
             default:
                 return '<unknown>'
         }
@@ -80,12 +82,14 @@ const Stats = () => {
         config,
     } = useContext(ThreedyContext);
 
+    const round = config.round === undefined ? true : config.round
+
     const percentComplete = hass.states[`${config.base_entity}_job_percentage`].state;
 
     return (
         <div style={{ ...styles.Stats }}>
             <div style={{ ...styles.Percent }}>
-                <p style={{ ...styles.PercentText }}>{ percentComplete }%</p>
+                <p style={{ ...styles.PercentText }}>{ round ? Math.round(percentComplete) : percentComplete }%</p>
             </div>
             <div style={{ ...styles.Monitored }}>
                 {

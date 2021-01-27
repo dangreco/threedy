@@ -3,7 +3,7 @@
 ## Home Asssistant card for 3D printers (via OctoPrint integration)
 
 
-![Screenshot](https://github.com/dangreco/threedy/raw/master/screenshot.png)
+![Featured](https://github.com/dangreco/threedy/raw/master/screenshots/active.png)
 
 
 
@@ -25,24 +25,30 @@
 ## Config
 ---
 
+### Required
+
 - ```type``` &mdash; Always ```'custom:threedy-card'```
 - ```base_entity``` &mdash; Take the beginning of one of the OctoPrint sensors of your printer. Example: for ```sensor.ender_3_v2_current_state``` it would be ```sensor_ender_3_v2```.
 - ```name``` &mdash; Can be whatever you want!
-- ```theme``` &mdash; Theme of the card: ```'Default' | 'Material' | 'Neumorphic' ```. Screenshots listed below.
-- ```scale``` &mdash; The scale factor of the animated 3D printer view. Try different values until you find one you like.
 - ```printer_type``` &mdash; Use a  printer style: ```'I3' | 'Cantilever' | 'Boxy' | 'Delta' ```
-- ```printer_config``` &mdash; Use in with ```printer_type``` to set a custom printer style. If omitted, the default for the type will be used. Use [this tool](https://google.com) to create a custom value.
 - ```monitored``` &mdash; A list of values to monitor throughout the print; gets displayed to the right of the printer.
+
+### Optional
+
+- ```theme``` &mdash; Theme of the card: ```'Default' | 'Material' | 'Neumorphic' ```. Screenshots listed below.
+- ```font``` &mdash; Specify the font used in the card. By default it is ```sans-serif```.
+- ```scale``` &mdash; The scale factor of the animated 3D printer view. Try different values until you find one you like.
+- ```round``` &mdash; Specify whether to round decimal numbers in the card. Defaults to true. ```true | false```
+- ```printer_config``` &mdash; Use in with ```printer_type``` to set a custom printer style. If omitted, the default for the type will be used. Use [this tool](https://google.com) to create a custom value.
 
 ## Example Config
 ---
 
 ```yaml
+# required
 type: 'custom:threedy-card'
 base_entity: 'sensor.ender_3_v2'
 name: 'Ender 3 v2'
-theme: 'Default' 
-scale: 0.5
 printer_type: I3
 monitored:
   - Status
@@ -50,6 +56,30 @@ monitored:
   - Elapsed
   - Hotend
   - Bed
+# optionals  
+theme: 'Default'
+font: 'Roboto'
+scale: 0.5
+round: false 
 ```
 
+
+## Screenshots
+---
+
+### Active Print
+
+![Active](https://github.com/dangreco/threedy/raw/master/screenshots/active.png)
+
+### Idle
+
+![Idle](https://github.com/dangreco/threedy/raw/master/screenshots/idle.png)
+
+### Printer Offline
+
+![Offline](https://github.com/dangreco/threedy/raw/master/screenshots/offline.png)
+
+### Show/Hide Animation
+
+![ShowHide](https://media.giphy.com/media/14VgtFSulJkOaRiZFo/giphy.gif)
 
