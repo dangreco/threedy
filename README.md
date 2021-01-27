@@ -1,5 +1,5 @@
 
-# Threedy
+# threedy
 ## Home Asssistant card for 3D printers (via OctoPrint integration)
 
 
