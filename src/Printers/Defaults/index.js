@@ -29,12 +29,10 @@ const Defaults = {
             width: 420,
             offsetLeft: -40,
             height: 20,
-            extruders: [
-                {
-                    width: 60, 
-                    height: 60
-                }
-            ]
+            extruder: {
+                width: 60,
+                height: 60
+            }
         }
 
     },

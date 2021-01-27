@@ -1,6 +1,6 @@
 import React from 'react';
 import ThreedyContext from '../../Contexts/ThreedyContext';
-import Card from '../Card/Card';
+import Card from '../Card';
 
 const ThreedyWrapper = ({ hass, config }) => {
 

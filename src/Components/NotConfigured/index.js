@@ -1,11 +1,11 @@
 import React from 'react';
 
-import './styles.scss';
+import styles from './styles';
 
 const NotConfigured = () => {
 
     return (
-        <div className="NotConfigured">
+        <div style={{ ...styles.NotConfigured }}>
             <p>Not configured!</p>
         </div>
     )

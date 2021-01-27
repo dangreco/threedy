@@ -1,16 +1,20 @@
 import React from 'react';
 import { motion } from "framer-motion"
-import './styles.scss';
+
+import styles from './styles';
 
 
-const Extruder = ({ config, extruder }) => {
+const Extruder = ({ dimensions }) => {
 
-    const holeWidth = config.top.width - (config.left.width + config.right.width);
-    const basisX = config.left.width + (holeWidth - config.buildplate.maxWidth) / 2 - (extruder.width) / 2 - config.xAxis.offsetLeft;
+    const {
+        Gantry,
+        Nozzle,
+        BuildPlate
+    } = dimensions;
 
     return (
-        <motion.div className="Extruder"
-            animate={{ left: [basisX, basisX + config.buildplate.maxWidth] }}
+        <motion.div
+            animate={{ x: [0, BuildPlate.width] }}
             transition={{ 
                 repeatType: 'reverse',
                 repeat: Infinity, 
@@ -18,16 +22,14 @@ const Extruder = ({ config, extruder }) => {
                 ease: 'linear'
             }}
             style={{
-                width: extruder.width,
-                height: extruder.height,
-                top: -(extruder.height - config.xAxis.height) / 2,
-                left: basisX
+                ...styles.Gantry, 
+                ...Gantry 
             }}
         >
             <div className="Nozzle"
                 style={{
-                    top: extruder.height,
-                    left: (extruder.width - 12) / 2
+                    ...styles.Nozzle,
+                    ...Nozzle
                 }}
             >
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NotConfigured from './Components/NotConfigured/NotConfigured';
-import ThreedyWrapper from './Components/ThreedyWrapper/ThreedyWrapper';
+import NotConfigured from './Components/NotConfigured';
+import ThreedyWrapper from './Components/ThreedyWrapper';
 
 class ThreedyCard extends HTMLElement {
 

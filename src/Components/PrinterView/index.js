@@ -4,7 +4,7 @@ import Cantilever from '../../Printers/Cantilever';
 import Defaults from '../../Printers/Defaults';
 import I3 from '../../Printers/I3';
 
-import './styles.scss';
+import styles from './styles';
 
 const PrinterView = () => {
 
@@ -30,7 +30,7 @@ const PrinterView = () => {
     let Printer = getPrinterType();
 
     return (
-        <div class="ThreedyPrinterView">
+        <div style={{ ...styles.PrinterView }}>
             <Printer config={config.printer_config || Defaults[config.printer_type]} />
         </div>
     )

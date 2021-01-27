@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import ThreedyContext from '../../Contexts/ThreedyContext';
 
-import './styles.scss';
+import styles from './styles';
 
 const DAYSEC = 60*60*24;
 const HRSEC = 60*60;
@@ -52,7 +52,7 @@ const Stat = ({ condition }) => {
             case 'Status':
                 return entity.state
             case 'ETA':
-                return moment().to(moment().add(entity.state, 's'), true)
+                return moment().add(entity.state, 's').format('h:mm a')
             case 'Elapsed':
                 return format_seconds_elapsed(entity.state)
             case 'Hotend':
@@ -65,9 +65,9 @@ const Stat = ({ condition }) => {
     }
 
     return (
-        <div className="ThreedyStat">
-            <p className="ThreedyCondition">{ condition }</p>
-            <p className="ThreedyState">{ formatEntityState() }</p>
+        <div style={{ ...styles.Stat }}>
+            <p style={{ ...styles.StatText, ...styles.Condition }}>{ condition }</p>
+            <p style={{ ...styles.StatText }}>{ formatEntityState() }</p>
         </div>
     )
 
@@ -83,11 +83,11 @@ const Stats = () => {
     const percentComplete = hass.states[`${config.base_entity}_job_percentage`].state;
 
     return (
-        <div className="ThreedyStats">
-            <div className="ThreedyPercent">
-                <p>{ percentComplete }%</p>
+        <div style={{ ...styles.Stats }}>
+            <div style={{ ...styles.Percent }}>
+                <p style={{ ...styles.PercentText }}>{ percentComplete }%</p>
             </div>
-            <div className="ThreedyMonitored">
+            <div style={{ ...styles.Monitored }}>
                 {
                     config.monitored.map(condition => <Stat condition={condition} />)
                 }
