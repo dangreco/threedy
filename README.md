@@ -19,7 +19,15 @@
 ---
 ### ~~Method 1: HACS~~
 
-### ~~Method 2: Manual~~
+### Method 2: Manual
+
+1. Download ```threedy-card.js``` from the releases section.
+2. Either:
+  * Move to the ```www``` folder of your Home Assistant instance
+  * Or copy the ffle's contents via the file editor.
+3. In the Resources section of Lovelace (```Configuration -> Lovelace Dashboards -> Resources```), add ```/local/threedy-card.js``` as a ```JavaScript Module```.
+4. Save
+5. Add a manual card to your lovelace dashboard using the configuration instructions below.
 
 
 ## Config
