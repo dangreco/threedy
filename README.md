@@ -28,6 +28,8 @@
 3. In the Resources section of Lovelace (```Configuration -> Lovelace Dashboards -> Resources```), add ```/local/threedy-card.js``` as a ```JavaScript Module```.
 4. Save
 5. Add a manual card to your lovelace dashboard using the configuration instructions below.
+6. Restart Server management
+7. Reload Browser
 
 
 ## Config
