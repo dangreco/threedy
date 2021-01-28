@@ -50,6 +50,10 @@ const Stat = ({ condition }) => {
     }
 
     const formatEntityState = () => {
+
+        if (entity === undefined)
+            return '<unknown>'
+
         switch (condition) {
             case 'Status':
                 return entity.state
@@ -84,7 +88,7 @@ const Stats = () => {
 
     const round = config.round === undefined ? true : config.round
 
-    const percentComplete = hass.states[`${config.base_entity}_job_percentage`].state;
+    const percentComplete = (hass.states[`${config.base_entity}_job_percentage`] || {state: -1.0}).state;
 
     return (
         <div style={{ ...styles.Stats }}>

@@ -7,34 +7,22 @@ import styles from './styles';
 
 import getDimensions from './utils';
 
-const I3 = ({ config }) => {
+const I3 = ({ printerConfig }) => {
 
-    const context = useContext(ThreedyContext);
+    const {
+        hass,
+        config
+    } = useContext(ThreedyContext);
 
     const [dimensions, setDimensions] = useState(undefined);
 
-    const ha_config = context.config;
-    const hass = context.hass;
-
-    const progress = hass.states[`${ha_config.base_entity}_job_percentage`].state / 100;
+    const progress = hass.states[`${config.base_entity}_job_percentage`].state / 100;
 
     const x = useMotionValue(0);
 
-    const calcDimensions = (rect) => {
-
-        const dimensions = getDimensions(
-            config,
-            rect.bounds,
-            ha_config.scale || 1.0
-        )
-
-        setDimensions(dimensions);
-    }
-
-
     useEffect(() => {
-        
-        if (dimensions !== undefined) { 
+
+        if (dimensions) {
             return animate(x, dimensions.BuildPlate.width, {
                 duration: 2,
                 repeat: 'Infinity',
@@ -49,7 +37,7 @@ const I3 = ({ config }) => {
     return (
         <Measure
             bounds
-            onResize={calcDimensions}
+            onResize={({bounds}) => setDimensions( getDimensions( printerConfig, bounds, config.scale || 1.0 ) )}
         >
 
             {

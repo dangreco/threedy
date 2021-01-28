@@ -31,7 +31,7 @@ const PrinterView = () => {
 
     return (
         <div style={{ ...styles.PrinterView }}>
-            <Printer config={config.printer_config || Defaults[config.printer_type]} />
+            <Printer printerConfig={config.printer_config || Defaults[config.printer_type]} />
         </div>
     )
 

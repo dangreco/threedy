@@ -37,7 +37,26 @@ const Defaults = {
 
     },
     'Cantilever': {
-
+        ZAxis: {
+            height: 340,
+            width: 120,
+            offsetLeft: 0
+        },
+        Bottom: {
+            width: 340,
+            height: 120
+        },
+        BuildPlate: {
+            maxWidth: 240,
+            maxHeight: 250,
+            verticalOffset: 50,
+            horizontalOffset: 20
+        },
+        XAxis: {
+            width: 360,
+            offsetLeft: 0,
+            height: 60
+        }
     }
 };
 
