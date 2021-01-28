@@ -1,11 +1,11 @@
 
-# Threedy
+# threedy
 ## Home Asssistant card for 3D printers (via OctoPrint integration)
 
 
 ![Featured](https://github.com/dangreco/threedy/raw/master/screenshots/active.png)
 
-
+<a href="https://www.buymeacoffee.com/dangreco" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## Prerequisites
 ---
@@ -19,7 +19,17 @@
 ---
 ### ~~Method 1: HACS~~
 
-### ~~Method 2: Manual~~
+### Method 2: Manual
+
+1. Download ```threedy-card.js``` from the releases section.
+2. Either:
+  * Move to the ```www``` folder of your Home Assistant instance
+  * Or copy the ffle's contents via the file editor.
+3. In the Resources section of Lovelace (```Configuration -> Lovelace Dashboards -> Resources```), add ```/local/threedy-card.js``` as a ```JavaScript Module```.
+4. Save
+5. Add a manual card to your lovelace dashboard using the configuration instructions below.
+6. Restart Server management
+7. Reload Browser
 
 
 ## Config
