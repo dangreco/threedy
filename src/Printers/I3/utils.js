@@ -53,8 +53,7 @@ const getDimensions = (config, bounds, haScaleFactor) => {
     /* Extruder */
     const E_W = scale.val(config.xAxis.extruder.width);
     const E_H = scale.val(config.xAxis.extruder.height);
-    const E_L = H_L + (-1 * X_L) + (H_W - B_W) / 2 - (E_W) / 2;
-    const E_T = - (E_H - X_H) / 2;
+    const E_L = P_L - (E_W) / 2;
     const E_M = E_L + B_W;
 
     /* Nozzle */
@@ -63,8 +62,8 @@ const getDimensions = (config, bounds, haScaleFactor) => {
     const N_L = (E_W - N_W) / 2;
     const N_T = E_H;
 
-    /* Last XAxis */
-    const X_T = P_T - ( (E_H + N_H) + E_T );
+    const E_T = P_T - E_H - N_H;
+    const X_T = E_T + (E_H / 2) - (X_H / 2);
 
     return {
         Scalable: {
