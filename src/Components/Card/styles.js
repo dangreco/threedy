@@ -1,3 +1,4 @@
+
 const styles = {
 
     Card: {
@@ -35,14 +36,27 @@ const styles = {
     Header: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         boxSizing: 'border-box',
         width: '100%'
     },
+    NameStatus: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        border: 'none',
+        outline: 'none',
+        backgroundColor: 'transparent',
+        boxSizing: 'border-box',
+        padding: 24,
+    },
     HeaderText: {
         fontWeight: 'bold',
         fontSize: 22,
+        margin: 0,
         color: 'var(--primary-text-color)',
     },
     Content: {
@@ -54,12 +68,26 @@ const styles = {
         boxSizing: 'border-box'
     },
     StatusDot: {
-        margin: 10,
-        marginTop: 12,  
+        margin: '0 10px',
         height: 10,
         width: 10,
         borderRadius: 5,
         boxSizing: 'border-box',
+    },
+
+    PowerButton: {
+        border: 'none',
+        outline: 'none',
+        backgroundColor: 'transparent',
+        width: 32,
+        height: 32,
+        fontSize: 22,
+        lineHeight: '22px',
+        boxSizing: 'border-box',
+        padding: 0,
+        marginRight: 24,
+        marginLeft: 24,
+        color: 'var(--primary-text-color)'
     }
 
 };

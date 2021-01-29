@@ -11,6 +11,7 @@
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.1.0",
     "react-measure": "^2.5.2"
   },
   "devDependencies": {

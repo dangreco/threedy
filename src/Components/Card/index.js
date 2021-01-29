@@ -3,9 +3,13 @@ import ThreedyContext from '../../Contexts/ThreedyContext';
 import PrinterView from '../PrinterView';
 import Stats from '../Stats';
 
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
+
+import { IoPower } from 'react-icons/io5'
 
 import styles from './styles';
+
+
 
 const Card = ({ }) => {
 
@@ -14,12 +18,21 @@ const Card = ({ }) => {
         hass
     } = useContext(ThreedyContext);
 
+    const [hiddenOverride, setHiddenOveride] = useState(false);
+
     const theme = config.theme;
 
-    const state = hass.states[`${config.base_entity}_current_state`].state
-    const hidden = state !== 'Printing'
-    const statusColor = state === 'Printing' ? "#4caf50" : state === "Unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107" 
+    const state = hass.states[`${config.base_entity}_current_state`].state        
+    const hidden = state !== 'Printing' && !hiddenOverride;
+    const statusColor = state === 'Printing' ? "#4caf50" : state === "Unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107"
     const borderRadius = styles[theme].borderRadius;
+
+    const togglePower = config.power_entity ? () => {
+        hass.callService('homeassistant', 'toggle', { entity_id: config.power_entity })
+            .then((context) => {
+                console.log(context)
+            })
+    } : () => { };
 
     return (
         <motion.div
@@ -34,14 +47,29 @@ const Card = ({ }) => {
             <div style={{ ...styles.Root }}>
 
                 <div style={{ ...styles.Header }}>
-                    <div style={{ 
-                        ...styles.StatusDot,
-                        backgroundColor: statusColor
-                    }}></div>
-                    <p style={{ ...styles.HeaderText }}>{ config.name }</p>
+                    {
+                        config.power_entity ? (
+                            <div style={{ ...styles.PowerButton }}></div>
+                        ) : (null)
+                    }
+
+                    <button style={{ ...styles.NameStatus }} onClick={() => setHiddenOveride(!hiddenOverride)}>
+                        <div style={{
+                            ...styles.StatusDot,
+                            backgroundColor: statusColor
+                        }}></div>
+                        <p style={{ ...styles.HeaderText }}>{config.name}</p>
+                    </button>
+
+                    {
+                        config.power_entity ? (
+                            <button style={{ ...styles.PowerButton }} onClick={togglePower}><IoPower /></button>
+                        ) : (null)
+                    }
+
                 </div>
 
-                <motion.div 
+                <motion.div
                     style={{ ...styles.Content }}
                     animate={{ height: hidden ? 0.0 : 'auto', opacity: hidden ? 0.0 : 1.0, scale: hidden ? 0.0 : 1.0 }}
                     transition={{ ease: "easeInOut", duration: 0.25 }}

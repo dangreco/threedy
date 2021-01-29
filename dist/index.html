@@ -11,7 +11,7 @@
                 document.getElementsByTagName('threedy-card')[0].hass = {
                     states: {
                         'sensor.ender_3_v2_current_state' : {
-                            state: "Printing"
+                            state: "Idle"
                         },
                         'sensor.ender_3_v2_job_percentage' : {
                             state: 52.12
@@ -34,6 +34,12 @@
                         'sensor.ender_3_v2_time_remaining' : {
                             state: 5734,
                         },
+                        'switch.ender': {
+
+                        }
+                    },
+                    callService: (domain, service, data) => {
+                        window.alert(domain, service, data);
                     }
                 }
             }
@@ -46,7 +52,8 @@
                     name: "Ender 3 v2",
                     theme: "Default",
                     scale: 1,
-                    printer_type: 'Cantilever',
+                    power_entity: 'switch.ender',
+                    printer_type: 'I3',
                     font: 'Assistant',
                     monitored: [
                         "Status",
