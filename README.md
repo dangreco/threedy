@@ -40,12 +40,12 @@
 - ```type``` &mdash; Always ```'custom:threedy-card'```
 - ```base_entity``` &mdash; Take the beginning of one of the OctoPrint sensors of your printer. Example: for ```sensor.ender_3_v2_current_state``` it would be ```sensor_ender_3_v2```.
 - ```name``` &mdash; Can be whatever you want!
-- ```printer_type``` &mdash; Use a  printer style: ```'I3' | 'Cantilever' | 'Boxy' | 'Delta' ```
+- ```printer_type``` &mdash; Use a  printer style: ```'I3' | 'Cantilever' ```
 - ```monitored``` &mdash; A list of values to monitor throughout the print; gets displayed to the right of the printer.
 
 ### Optional
 
-- ```theme``` &mdash; Theme of the card: ```'Default' | 'Material' | 'Neumorphic' ```. Screenshots listed below.
+- ```theme``` &mdash; Theme of the card: ```'Default' | 'Neumorphic' ```. Screenshots listed below.
 - ```font``` &mdash; Specify the font used in the card. By default it is ```sans-serif```.
 - ```scale``` &mdash; The scale factor of the animated 3D printer view. Try different values until you find one you like.
 - ```round``` &mdash; Specify whether to round decimal numbers in the card. Defaults to true. ```true | false```
