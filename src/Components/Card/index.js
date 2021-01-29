@@ -21,7 +21,7 @@ const Card = ({ }) => {
 
     const [hiddenOverride, setHiddenOveride] = useState(false);
 
-    const theme = config.theme;
+    const theme = config.theme || 'Default';
 
     const state = hass.states[`${config.base_entity}_current_state`].state
     const hidden = state !== 'Printing' && !hiddenOverride;
