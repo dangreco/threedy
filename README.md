@@ -49,6 +49,7 @@
 - ```font``` &mdash; Specify the font used in the card. By default it is ```sans-serif```.
 - ```scale``` &mdash; The scale factor of the animated 3D printer view. Try different values until you find one you like.
 - ```round``` &mdash; Specify whether to round decimal numbers in the card. Defaults to true. ```true | false```
+- ```use_24hr``` &mdash; Use 24 hour time format instead of 12 hour.
 - ```printer_config``` &mdash; Use in with ```printer_type``` to set a custom printer style. If omitted, the default for the type will be used. Use [this tool](https://google.com) to create a custom value.
 - ```light_entity``` &mdash; Specify the entity ID of a light you want to toggle for the printer.
 - ```power_entity``` &mdahs; Specify the entity ID of a power switch you want to toggle for the printer.

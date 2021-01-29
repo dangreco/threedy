@@ -58,7 +58,7 @@ const Stat = ({ condition }) => {
             case 'Status':
                 return entity.state
             case 'ETA':
-                return moment().add(entity.state, 's').format('h:mm a')
+                return moment().add(entity.state, 's').format(config.use_24hr ? 'HH:mm' : 'h:mm a')
             case 'Elapsed':
                 return format_seconds_elapsed(entity.state)
             case 'Hotend':
