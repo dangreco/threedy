@@ -15,13 +15,14 @@ const Cantilever = ({ printerConfig }) => {
 
     const [dimensions, setDimensions] = useState(undefined);
 
+    const printing = hass.states[`${config.base_entity}_current_state`].state === 'Printing';
     const progress = hass.states[`${config.base_entity}_job_percentage`].state / 100;
 
     const x = useMotionValue(0);
 
     useEffect(() => {
 
-        if (dimensions) {
+        if (dimensions && printing) {
             return animate(x, dimensions.BuildPlate.width, {
                 duration: 2,
                 repeat: 'Infinity',
@@ -50,12 +51,25 @@ const Cantilever = ({ printerConfig }) => {
                                     <div style={{ ...styles.Bottom, ...dimensions.Bottom }} />
 
 
-                                    <motion.div style={{ ...styles.XAxis, ...dimensions.XAxis }} />
-
-
                                     <div style={{ ...styles.BuildPlate, ...dimensions.BuildPlate }} />
 
+                                    <div style={{ ...styles.BuildArea, ...dimensions.BuildArea }}>
+                                        <div style={{ ...styles.Print, height: `${progress * 100}%` }} />
 
+                                    </div>
+
+                                    <motion.div 
+                                        animate={{ y: -1 * progress * dimensions.BuildArea.height  }}
+                                        style={{ ...styles.XAxis, ...dimensions.XAxis }} 
+                                    />
+
+
+                                    <motion.div 
+                                        animate={{ y: -1 * progress * dimensions.BuildArea.height  }}
+                                        style={{ ...styles.Gantry, ...dimensions.Gantry, x }}
+                                    >
+                                        <div style={{ ...styles.Nozzle, ...dimensions.Nozzle }} />
+                                    </motion.div>
 
                                 </div>
                             ) : (null)

@@ -16,13 +16,14 @@ const I3 = ({ printerConfig }) => {
 
     const [dimensions, setDimensions] = useState(undefined);
 
+    const printing = hass.states[`${config.base_entity}_current_state`].state === 'Printing';
     const progress = hass.states[`${config.base_entity}_job_percentage`].state / 100;
 
     const x = useMotionValue(0);
 
     useEffect(() => {
 
-        if (dimensions) {
+        if (dimensions && printing) {
             return animate(x, dimensions.BuildPlate.width, {
                 duration: 2,
                 repeat: 'Infinity',

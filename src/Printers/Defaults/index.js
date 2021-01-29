@@ -38,24 +38,29 @@ const Defaults = {
     },
     'Cantilever': {
         ZAxis: {
-            height: 340,
-            width: 120,
+            height: 240,
+            width: 80,
             offsetLeft: 0
         },
         Bottom: {
-            width: 340,
-            height: 120
+            width: 220,
+            height: 80
         },
         BuildPlate: {
-            maxWidth: 240,
-            maxHeight: 250,
-            verticalOffset: 50,
+            maxWidth: 120,
+            maxHeight: 120,
+            verticalOffset: 20,
             horizontalOffset: 20
         },
         XAxis: {
-            width: 360,
+            width: 260,
             offsetLeft: 0,
-            height: 60
+            height: 60,
+            extruder: {
+                width: 40,
+                height: 60,
+                offsetY: 20
+            }
         }
     }
 };
