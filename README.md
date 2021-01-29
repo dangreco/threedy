@@ -72,7 +72,7 @@ monitored:
 # optionals  
 theme: 'Default'
 font: 'Roboto'
-scale: 0.5
+scale: 1.0
 round: false 
 ```
 
