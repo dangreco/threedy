@@ -49,7 +49,7 @@ class ThreedyCard extends HTMLElement {
 
 
     _render() {
-        if (this._hass === undefined || this._config === undefined)
+        if (!this._hass || !this._config)
             return ReactDOM.render(<NotConfigured />, this);
 
         ReactDOM.render(

@@ -7,6 +7,36 @@
 
 <a href="https://www.buymeacoffee.com/dangreco" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
+
+# Table of Contents
+- [Features](#-features)
+- [Prerequisites](#-prerequisites)
+- [Installation](#-installation)
+  - [~~Method 1: HACS~~](#method-1-hacs)
+  - [Method 2: Manual](#method-2-manual)
+- [Config](#-config)
+  - [Required](#required)
+  - [Optional](#optional)
+- [Example Config](#-example-config)
+- [Custom Theming](#-custom-theming)
+- [Screenshots](#-screenshots)
+  - [Active Print](#active-print)
+  - [Idle](#idle)
+  - [Printer Offline](#printer-offline)
+  - [Show/Hide Animation](#showhide-animation)
+
+## Features
+---
+
+- Live animation of 3D printer
+- Current states of various OctoPrint sensors
+- Tap to show/hide when printer is idle
+- Power button for a switch entity
+- Light button for a switch entity
+- Adjustable 3D printer graphic scale
+- Themes
+
+
 ## Prerequisites
 ---
 - [OctoPrint](https://octoprint.org/)-enabled 3D printer
@@ -72,8 +102,29 @@ monitored:
 # optionals  
 theme: 'Default'
 font: 'Roboto'
-scale: 0.5
+scale: 1.0
 round: false 
+```
+
+## Custom Theming
+---
+
+Custom theming can be accomplished using [lovelace-card-mod](https://github.com/thomasloven/lovelace-card-mod#mod-card)'s ```mod-card```.
+Some styles may require the css keyword ``` !important``` to override the inline style.
+Example usage as follows:
+
+```yaml
+type: 'custom:mod-card'
+style: |
+  threedy-card > div {
+    box-shadow: none !important;
+  }
+card:
+  type: 'custom:threedy-card'
+    .
+    .
+    .
+    <card config>
 ```
 
 
