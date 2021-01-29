@@ -6,6 +6,7 @@ import Stats from '../Stats';
 import { motion } from 'framer-motion';
 
 import { IoPower } from 'react-icons/io5'
+import { GoLightBulb } from 'react-icons/go';
 
 import styles from './styles';
 
@@ -22,13 +23,20 @@ const Card = ({ }) => {
 
     const theme = config.theme;
 
-    const state = hass.states[`${config.base_entity}_current_state`].state        
+    const state = hass.states[`${config.base_entity}_current_state`].state
     const hidden = state !== 'Printing' && !hiddenOverride;
-    const statusColor = state === 'Printing' ? "#4caf50" : state === "Unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107"
+    const statusColor = state === 'Printing' ? "#4caf50" : state === "unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107"
     const borderRadius = styles[theme].borderRadius;
 
     const togglePower = config.power_entity ? () => {
         hass.callService('homeassistant', 'toggle', { entity_id: config.power_entity })
+            .then((context) => {
+                console.log(context)
+            })
+    } : () => { };
+
+    const toggleLight = config.light_entity ? () => {
+        hass.callService('homeassistant', 'toggle', { entity_id: config.light_entity })
             .then((context) => {
                 console.log(context)
             })
@@ -46,10 +54,17 @@ const Card = ({ }) => {
         >
             <div style={{ ...styles.Root }}>
 
-                <div style={{ ...styles.Header }}>
+                <div style={{ ...styles.Header, justifyContent: config.power_entity || config.light_entity ? 'space-between' : 'center' }}>
+                    {
+                        config.light_entity && !config.power_entity ? (
+                            <div style={{ ...styles.PowerButton }}></div>
+                        ) : (null)
+                    }
+
+
                     {
                         config.power_entity ? (
-                            <div style={{ ...styles.PowerButton }}></div>
+                            <button style={{ ...styles.PowerButton }} onClick={togglePower}><IoPower /></button>
                         ) : (null)
                     }
 
@@ -61,9 +76,16 @@ const Card = ({ }) => {
                         <p style={{ ...styles.HeaderText }}>{config.name}</p>
                     </button>
 
+
                     {
-                        config.power_entity ? (
-                            <button style={{ ...styles.PowerButton }} onClick={togglePower}><IoPower /></button>
+                        config.light_entity ? (
+                            <button style={{ ...styles.PowerButton }} onClick={toggleLight}><GoLightBulb /></button>
+                        ) : (null)
+                    }
+
+                    {
+                        config.power_entity && !config.light_entity ? (
+                            <div style={{ ...styles.PowerButton }}></div>
                         ) : (null)
                     }
 
