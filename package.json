@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "framer-motion": "^3.2.2-rc.1",
+    "lit-element": "^2.4.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
