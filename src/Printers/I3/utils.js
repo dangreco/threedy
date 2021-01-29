@@ -5,12 +5,6 @@ const getDimensions = (config, bounds, haScaleFactor) => {
     /* We estimate the initial scale factor based on the height of the frame, then compound with set factor */
     const scale = new Scale( (bounds.height / (config.top.height + config.bottom.height + config.left.height)) * haScaleFactor );
     
-    console.log("Config:")
-    console.log(config)
-    console.log("Offset:")
-    console.table(bounds)
-    console.log("HA Scale: " + haScaleFactor);
-    console.log("Scale Factor: " + scale.scale_factor);
 
     /* Frame */
     const F_W = scale.val(config.top.width); // Width
