@@ -28,7 +28,14 @@ const Card = ({ }) => {
     const statusColor = state === 'Printing' ? "#4caf50" : state === "unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107"
     const borderRadius = styles[theme].borderRadius;
 
+    const fireHaptic = () => {
+        let event = new Event("haptic");
+        event.detail = "medium"
+        window.dispatchEvent(event);
+    }
+    
     const togglePower = config.power_entity ? () => {
+        fireHaptic();
         hass.callService('homeassistant', 'toggle', { entity_id: config.power_entity })
             .then((context) => {
                 console.log(context)
@@ -36,6 +43,7 @@ const Card = ({ }) => {
     } : () => { };
 
     const toggleLight = config.light_entity ? () => {
+        fireHaptic();
         hass.callService('homeassistant', 'toggle', { entity_id: config.light_entity })
             .then((context) => {
                 console.log(context)
