@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NotConfigured from './Components/NotConfigured';
 import ThreedyWrapper from './Components/ThreedyWrapper';
+import Configurator from './Configurator';
 
 class ThreedyEditor extends HTMLElement {
 
@@ -9,6 +10,7 @@ class ThreedyEditor extends HTMLElement {
 
     setConfig(config) {
         this._config = config;
+        this._render();
     }
 
     configChanged(newConfig) {
@@ -24,8 +26,12 @@ class ThreedyEditor extends HTMLElement {
         this._render();
     }
 
-    render() {
-
+    _render() 
+    {   
+        ReactDOM.render(
+            <Configurator config={this._config} />,
+            this
+        );
     }
 
 }
@@ -49,7 +55,7 @@ class ThreedyCard extends HTMLElement {
 
 
     _render() {
-        if (!this._hass || !this._config)
+        if (!this._hass || !this._config || !this._hass.states)
             return ReactDOM.render(<NotConfigured />, this);
 
         ReactDOM.render(
@@ -71,6 +77,13 @@ class ThreedyCard extends HTMLElement {
     getCardSize() {
         return 2;
     }
+
+
+    static getConfigElement()
+    {
+        return document.createElement('threedy-editor');
+    }
+
 
 }
 

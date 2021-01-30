@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
-import ThreedyContext from '../../Contexts/ThreedyContext';
-import PrinterView from '../PrinterView';
-import Stats from '../Stats';
-
 import { motion } from 'framer-motion';
-
 import { IoPower } from 'react-icons/io5'
 import { GoLightBulb } from 'react-icons/go';
 
-import styles from './styles';
+import ThreedyContext from '../../Contexts/ThreedyContext';
+import toggleEntity from '../../Utils/Toggle';
 
+import PrinterView from '../PrinterView';
+import Stats from '../Stats';
+
+import styles from './styles';
 
 
 const Card = ({ }) => {
@@ -22,34 +22,20 @@ const Card = ({ }) => {
     const [hiddenOverride, setHiddenOveride] = useState(false);
 
     const theme = config.theme || 'Default';
-
-    const state = hass.states[`${config.base_entity}_current_state`].state
-    const hidden = state !== 'Printing' && !hiddenOverride;
-    const statusColor = state === 'Printing' ? "#4caf50" : state === "unknown" ? "#f44336" : state === "Operational" ? "#00bcd4" : "#ffc107"
     const borderRadius = styles[theme].borderRadius;
 
-    const fireHaptic = () => {
-        let event = new Event("haptic");
-        event.detail = "medium"
-        window.dispatchEvent(event);
-    }
+    const state = (hass.states[`${config.base_entity}_current_state`] || {state: 'unknown'}).state
+
+    const hidden = state !== 'Printing' && !hiddenOverride;
+    const statusColor = 
+        state === 'Printing' ? 
+            "#4caf50" 
+            : state === "unknown" ? 
+                "#f44336" 
+                : state === "Operational" ? 
+                    "#00bcd4" 
+                    : "#ffc107"
     
-    const togglePower = config.power_entity ? () => {
-        fireHaptic();
-        hass.callService('homeassistant', 'toggle', { entity_id: config.power_entity })
-            .then((context) => {
-                console.log(context)
-            })
-    } : () => { };
-
-    const toggleLight = config.light_entity ? () => {
-        fireHaptic();
-        hass.callService('homeassistant', 'toggle', { entity_id: config.light_entity })
-            .then((context) => {
-                console.log(context)
-            })
-    } : () => { };
-
     return (
         <motion.div
             animate={{ borderRadius: hidden ? borderRadius : borderRadius * 2 }}
@@ -62,38 +48,57 @@ const Card = ({ }) => {
         >
             <div style={{ ...styles.Root }}>
 
-                <div style={{ ...styles.Header, justifyContent: config.power_entity || config.light_entity ? 'space-between' : 'center' }}>
+                <div 
+                    style={{ 
+                        ...styles.Header, 
+                        justifyContent: config.power_entity || config.light_entity ? 'space-between' : 'center' 
+                    }}
+                >
+                    
                     {
                         config.light_entity && !config.power_entity ? (
-                            <div style={{ ...styles.PowerButton }}></div>
+                            <div style={{ ...styles.PowerButton }} />
                         ) : (null)
                     }
-
 
                     {
                         config.power_entity ? (
-                            <button style={{ ...styles.PowerButton }} onClick={togglePower}><IoPower /></button>
+                            <button
+                                style={{ ...styles.PowerButton }} 
+                                onClick={() => toggleEntity(config.power_entity)}
+                            >
+                                <IoPower />
+                            </button>
                         ) : (null)
                     }
 
-                    <button style={{ ...styles.NameStatus }} onClick={() => setHiddenOveride(!hiddenOverride)}>
-                        <div style={{
-                            ...styles.StatusDot,
-                            backgroundColor: statusColor
-                        }}></div>
-                        <p style={{ ...styles.HeaderText }}>{config.name}</p>
+                    <button 
+                        style={{ ...styles.NameStatus }} 
+                        onClick={() => setHiddenOveride(!hiddenOverride)}
+                    >
+                        <div
+                            style={{
+                                ...styles.StatusDot,
+                                backgroundColor: statusColor
+                            }}
+                        />
+                        <p style={{ ...styles.HeaderText }}>{ config.name || '(no name)' }</p>
                     </button>
-
 
                     {
                         config.light_entity ? (
-                            <button style={{ ...styles.PowerButton }} onClick={toggleLight}><GoLightBulb /></button>
+                            <button 
+                                style={{ ...styles.PowerButton }} 
+                                onClick={() => toggleEntity(config.light_entity)}
+                            >
+                                <GoLightBulb />
+                            </button>
                         ) : (null)
                     }
 
                     {
                         config.power_entity && !config.light_entity ? (
-                            <div style={{ ...styles.PowerButton }}></div>
+                            <div style={{ ...styles.PowerButton }} />
                         ) : (null)
                     }
 
@@ -107,7 +112,13 @@ const Card = ({ }) => {
                     <div style={{ ...styles.Section }}>
                         <PrinterView />
                     </div>
-                    <div style={{ ...styles.Section, paddingLeft: 16, paddingRight: 32 }}>
+                    <div 
+                        style={{ 
+                            ...styles.Section, 
+                            paddingLeft: 16, 
+                            paddingRight: 32 
+                        }}
+                    >
                         <Stats />
                     </div>
                 </motion.div>

@@ -97,7 +97,7 @@ const Stats = () => {
             </div>
             <div style={{ ...styles.Monitored }}>
                 {
-                    config.monitored.map(condition => <Stat condition={condition} />)
+                    config.monitored ? config.monitored.map(condition => <Stat condition={condition} />) : (null)
                 }
             </div>
         </div>

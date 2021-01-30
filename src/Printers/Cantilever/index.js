@@ -1,6 +1,6 @@
 import { motion, animate, useMotionValue } from 'framer-motion';
 import React, { useContext, useState, useEffect } from 'react';
-import Measure from 'react-measure';
+import useDimensions from 'react-cool-dimensions'
 import ThreedyContext from '../../Contexts/ThreedyContext';
 
 import styles from './styles';
@@ -15,8 +15,18 @@ const Cantilever = ({ printerConfig }) => {
 
     const [dimensions, setDimensions] = useState(undefined);
 
-    const printing = hass.states[`${config.base_entity}_current_state`].state === 'Printing';
-    const progress = hass.states[`${config.base_entity}_job_percentage`].state / 100;
+    const { ref, width, height, entry, unobserve, observe } = useDimensions({
+        onResize: ({ width, height, entry, unobserve, observe }) => {
+            setDimensions(
+                getDimensions(printerConfig, { width, height }, config.scale || 1.0)
+            )
+        },
+    });
+
+
+
+    const printing = (hass.states[`${config.base_entity}_current_state`] || { state: "unknown" }).state === 'Printing';
+    const progress = (hass.states[`${config.base_entity}_job_percentage`] || { state: 0 }).state / 100;
 
     const x = useMotionValue(0);
 
@@ -33,53 +43,43 @@ const Cantilever = ({ printerConfig }) => {
 
     }, [dimensions])
 
-    return(
-        <Measure
-            bounds
-            onResize={({bounds}) => setDimensions( getDimensions( printerConfig, bounds, config.scale || 1.0 ) )}
-        >
+    return (
+        <div style={{ ...styles.Cantilever }} ref={ref}>
+
             {
-                ({ measureRef }) => (
+                dimensions ? (
+                    <div style={{ ...styles.Scalable, ...dimensions.Scalable }}>
 
-                    <div style={{ ...styles.Cantilever }} ref={measureRef}>
-                        
-                        {
-                            dimensions ? (
-                                <div style={{ ...styles.Scalable, ...dimensions.Scalable }}>
-                                    
-                                    <div style={{ ...styles.ZAxis, ...dimensions.ZAxis }} />
-                                    <div style={{ ...styles.Bottom, ...dimensions.Bottom }} />
+                        <div style={{ ...styles.ZAxis, ...dimensions.ZAxis }} />
+                        <div style={{ ...styles.Bottom, ...dimensions.Bottom }} />
 
 
-                                    <div style={{ ...styles.BuildPlate, ...dimensions.BuildPlate }} />
+                        <div style={{ ...styles.BuildPlate, ...dimensions.BuildPlate }} />
 
-                                    <div style={{ ...styles.BuildArea, ...dimensions.BuildArea }}>
-                                        <div style={{ ...styles.Print, height: `${progress * 100}%` }} />
+                        <div style={{ ...styles.BuildArea, ...dimensions.BuildArea }}>
+                            <div style={{ ...styles.Print, height: `${progress * 100}%` }} />
 
-                                    </div>
+                        </div>
 
-                                    <motion.div 
-                                        animate={{ y: -1 * progress * dimensions.BuildArea.height  }}
-                                        style={{ ...styles.XAxis, ...dimensions.XAxis }} 
-                                    />
+                        <motion.div
+                            animate={{ y: -1 * progress * dimensions.BuildArea.height }}
+                            style={{ ...styles.XAxis, ...dimensions.XAxis }}
+                        />
 
 
-                                    <motion.div 
-                                        animate={{ y: -1 * progress * dimensions.BuildArea.height  }}
-                                        style={{ ...styles.Gantry, ...dimensions.Gantry, x }}
-                                    >
-                                        <div style={{ ...styles.Nozzle, ...dimensions.Nozzle }} />
-                                    </motion.div>
-
-                                </div>
-                            ) : (null)
-                        }
+                        <motion.div
+                            animate={{ y: -1 * progress * dimensions.BuildArea.height }}
+                            style={{ ...styles.Gantry, ...dimensions.Gantry, x }}
+                        >
+                            <div style={{ ...styles.Nozzle, ...dimensions.Nozzle }} />
+                        </motion.div>
 
                     </div>
-
-                )
+                ) : (null)
             }
-        </Measure>
+
+        </div>
+
     )
 
 }
