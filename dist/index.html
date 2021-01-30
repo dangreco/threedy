@@ -6,9 +6,9 @@
 
         <script>
 
-            function setHass()
+            function setHass(tag)
             {
-                document.getElementsByTagName('threedy-card')[0].hass = {
+                document.getElementsByTagName(tag)[0].hass = {
                     states: {
                         'sensor.ender_3_v2_current_state' : {
                             state: "Printing"
@@ -44,9 +44,9 @@
                 }
             }
 
-            function setConfig()
+            function setConfig(tag)
             {
-                document.getElementsByTagName('threedy-card')[0].setConfig({
+                document.getElementsByTagName(tag)[0].setConfig({
                     type: 'custom:threedy-card',
                     base_entity: 'sensor.ender_3_v2',
                     name: "Ender 3 v2",
@@ -66,8 +66,14 @@
 
             function load()
             {
-                setHass();
-                setConfig();
+                setHass('threedy-card');
+                setConfig('threedy-card');
+            }
+
+            function loadConfig()
+            {
+                setHass('threedy-editor');
+                setConfig('threedy-editor');
             }
 
         </script>
@@ -103,6 +109,12 @@
                 left: 16px;
             }
 
+            #LoaderConfig {
+                position: fixed;
+                top: 48px;
+                left: 16px;
+            }
+
         </style>
 
         <script src='./threedy-card.js'></script>
@@ -115,10 +127,17 @@
             <threedy-card>
 
             </threedy-card>
+            <threedy-editor>
+
+            </threedy-editor>
         </div>
 
         <button id="Loader" onclick="load()">
             Load Data
+        </button>
+
+        <button id="LoaderConfig" onclick="loadConfig()">
+            Load Config
         </button>
 
     </body>

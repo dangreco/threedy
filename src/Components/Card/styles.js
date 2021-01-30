@@ -86,7 +86,6 @@ const styles = {
         padding: 0,
         marginRight: 24,
         marginLeft: 24,
-        color: 'var(--primary-text-color)'
     }
 
 };

@@ -25,6 +25,7 @@ const Card = ({ }) => {
     const borderRadius = styles[theme].borderRadius;
 
     const state = (hass.states[`${config.base_entity}_current_state`] || {state: 'unknown'}).state
+    const light_color = config.light_entity ? (hass.states[config.light_entity] || {state: 'off'}).state === 'on' ? 'var(--primary-text-color)' : '#777777' : '#777777'    
 
     const hidden = state !== 'Printing' && !hiddenOverride;
     const statusColor = 
@@ -64,7 +65,7 @@ const Card = ({ }) => {
                     {
                         config.power_entity ? (
                             <button
-                                style={{ ...styles.PowerButton }} 
+                                style={{ ...styles.PowerButton, color: light_color }} 
                                 onClick={() => toggleEntity(config.power_entity)}
                             >
                                 <IoPower />

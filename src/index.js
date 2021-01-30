@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 import NotConfigured from './Components/NotConfigured';
 import ThreedyWrapper from './Components/ThreedyWrapper';
 import Configurator from './Configurator';
+import { StylesProvider, jssPreset } from '@material-ui/styles';
+import { create } from 'jss';
 
 class ThreedyEditor extends HTMLElement {
 
+    _jss;
     _hass;
     _config;
 
@@ -30,16 +33,22 @@ class ThreedyEditor extends HTMLElement {
     }
 
     connectedCallback() {
+        this._jss = create({
+            ...jssPreset(),
+            insertionPoint: this
+        });      
         this._render();
     }
 
     _render() 
     {   
-        if (!this._hass)
+        if (!this._hass || !this._jss)
             return
 
         ReactDOM.render(
-            <Configurator hass={this._hass} config={this._config} />,
+            (<StylesProvider jss={this._jss}>
+                <Configurator hass={this._hass} config={this._config} configChanged={this.configChanged} />
+            </StylesProvider>),
             this
         );
     }
