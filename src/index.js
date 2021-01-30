@@ -6,7 +6,14 @@ import Configurator from './Configurator';
 
 class ThreedyEditor extends HTMLElement {
 
+    _hass;
     _config;
+
+    set hass(hass)
+    {
+        this._hass = hass;
+        this._render();
+    }
 
     setConfig(config) {
         this._config = config;
@@ -28,8 +35,11 @@ class ThreedyEditor extends HTMLElement {
 
     _render() 
     {   
+        if (!this._hass)
+            return
+
         ReactDOM.render(
-            <Configurator config={this._config} />,
+            <Configurator hass={this._hass} config={this._config} />,
             this
         );
     }
