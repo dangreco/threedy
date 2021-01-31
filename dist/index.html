@@ -36,6 +36,9 @@
                         },
                         'switch.ender': {
 
+                        },
+                        'switch.light': {
+                            state: 'off'
                         }
                     },
                     callService: (domain, service, data) => {
@@ -53,6 +56,7 @@
                     theme: "Default",
                     scale: 1,
                     printer_type: 'I3',
+                    light_entity: 'switch.light',
                     font: 'Assistant',
                     monitored: [
                         "Status",

@@ -15,8 +15,10 @@
   - [~~Method 1: HACS~~](#method-1-hacs)
   - [Method 2: Manual](#method-2-manual)
 - [Config](#-config)
-  - [Required](#required)
-  - [Optional](#optional)
+  - [Graphical](#-Graphical)
+  - [Manual](#manual)
+    - [Required](#required)
+    - [Optional](#optional)
 - [Example Config](#-example-config)
 - [Custom Theming](#-custom-theming)
 - [Screenshots](#-screenshots)
@@ -65,7 +67,14 @@
 ## Config
 ---
 
-### Required
+### Graphical (Recommended)
+
+![graphical](https://github.com/dangreco/threedy/raw/master/screenshots/graphical.png)
+
+
+### Manual
+
+#### Required
 
 - ```type``` &mdash; Always ```'custom:threedy-card'```
 - ```base_entity``` &mdash; Take the beginning of one of the OctoPrint sensors of your printer. Example: for ```sensor.ender_3_v2_current_state``` it would be ```sensor_ender_3_v2```.
@@ -73,7 +82,7 @@
 - ```printer_type``` &mdash; Use a  printer style: ```'I3' | 'Cantilever' ```
 - ```monitored``` &mdash; A list of values to monitor throughout the print; gets displayed to the right of the printer.
 
-### Optional
+#### Optional
 
 - ```theme``` &mdash; Theme of the card: ```'Default' | 'Neumorphic' ```. Screenshots listed below.
 - ```font``` &mdash; Specify the font used in the card. By default it is ```sans-serif```.

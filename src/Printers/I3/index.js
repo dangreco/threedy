@@ -18,14 +18,12 @@ const I3 = ({ printerConfig }) => {
 
     const { ref, width, height, entry, unobserve, observe } = useDimensions({
         onResize: ({ width, height, entry, unobserve, observe }) => {
-            console.log("Foo")
             setDimensions(
                 getDimensions(printerConfig, {width, height}, config.scale || 1.0)
             )
         },
     });
 
-    console.log(width, height)
 
     const printing = (hass.states[`${config.base_entity}_current_state`] || { state: "unknown" }).state === 'Printing';
     const progress = (hass.states[`${config.base_entity}_job_percentage`] || { state: 0 }).state / 100;

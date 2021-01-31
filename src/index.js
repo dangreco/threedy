@@ -3,17 +3,18 @@ import ReactDOM from 'react-dom';
 import NotConfigured from './Components/NotConfigured';
 import ThreedyWrapper from './Components/ThreedyWrapper';
 import Configurator from './Configurator';
-import { StylesProvider, jssPreset } from '@material-ui/styles';
-import { create } from 'jss';
 
 class ThreedyEditor extends HTMLElement {
 
-    _jss;
     _hass;
     _config;
 
-    set hass(hass)
+    constructor()
     {
+        super();
+    }
+
+    set hass(hass) {
         this._hass = hass;
         this._render();
     }
@@ -23,32 +24,16 @@ class ThreedyEditor extends HTMLElement {
         this._render();
     }
 
-    configChanged(newConfig) {
-        const event = new Event("config-changed", {
-            bubbles: true,
-            composed: true
-        });
-        event.detail = { config: newConfig };
-        this.dispatchEvent(event);
-    }
-
     connectedCallback() {
-        this._jss = create({
-            ...jssPreset(),
-            insertionPoint: this
-        });      
         this._render();
     }
 
-    _render() 
-    {   
-        if (!this._hass || !this._jss)
+    _render() {
+        if (!this._hass)
             return
 
         ReactDOM.render(
-            (<StylesProvider jss={this._jss}>
-                <Configurator hass={this._hass} config={this._config} configChanged={this.configChanged} />
-            </StylesProvider>),
+            <Configurator hass={this._hass} config={this._config} threedy={this} />,
             this
         );
     }
@@ -98,8 +83,7 @@ class ThreedyCard extends HTMLElement {
     }
 
 
-    static getConfigElement()
-    {
+    static getConfigElement() {
         return document.createElement('threedy-editor');
     }
 

@@ -6,6 +6,9 @@ const styles = {
         width: '100%'
     },
     Label:  {
+        marginBottom: 4,
+        fontWeight: 'bold',
+        fontSize: 14
     }
 };
 
