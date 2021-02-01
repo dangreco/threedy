@@ -29,7 +29,8 @@ const styles = {
         padding: 0,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        color: 'var(--primary-text-color)'
     },
 
     PositionButton: {
@@ -40,7 +41,8 @@ const styles = {
         backgroundColor: 'transparent',
         outline: 'none',
         border: 'none',
-        marginLeft: 16
+        marginLeft: 16,
+        color: 'var(--primary-text-color)'
     },
 
     ItemText: {
