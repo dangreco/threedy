@@ -1,7 +1,5 @@
 {
     "name": "threedy",
-    "content_in_root": false,
-    "zip_release": false,
     "filename": "threedy-card.js",
     "render_readme": true
 }
