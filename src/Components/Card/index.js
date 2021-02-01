@@ -22,7 +22,9 @@ const Card = ({ }) => {
     const [hiddenOverride, setHiddenOveride] = useState(false);
 
     const theme = config.theme || 'Default';
-    const borderRadius = styles[theme].borderRadius;
+
+
+    const borderRadius = styles[theme] ? styles[theme].borderRadius : styles['Default'].borderRadius;
 
     const state = (hass.states[`${config.base_entity}_current_state`] || {state: 'unknown'}).state
     const light_color = config.light_entity ? (hass.states[config.light_entity] || {state: 'off'}).state === 'on' ? 'var(--primary-text-color)' : '#777777' : '#777777'    
