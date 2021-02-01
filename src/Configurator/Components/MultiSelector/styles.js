@@ -30,7 +30,8 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        color: 'var(--primary-text-color)'
+        color: 'var(--primary-text-color)',
+        cursor: 'pointer'
     },
 
     PositionButton: {
@@ -42,7 +43,8 @@ const styles = {
         outline: 'none',
         border: 'none',
         marginLeft: 16,
-        color: 'var(--primary-text-color)'
+        color: 'var(--primary-text-color)',
+        cursor: 'pointer'
     },
 
     ItemText: {
