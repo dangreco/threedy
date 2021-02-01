@@ -17,12 +17,10 @@ const styles = {
     },
     Default: {
         borderRadius: 4,
-        boxShadow: 'var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) )',
         color: 'var(--primary-text-color)'
     },
     Neumorphic: {
         borderRadius: 16,
-        boxShadow: '20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff',
         margin: 24
     },
     Root: {
