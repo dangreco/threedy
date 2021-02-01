@@ -1,6 +1,8 @@
 const styles = {
     Configurator: {
-        padding: 32
+        padding: 32,
+        maxHeight: 400,
+        overflowY: 'scroll'
     },
     PrinterSelect: {
         width: '100%'
