@@ -75,7 +75,7 @@ const Card = ({ }) => {
                         config.power_entity ? (
                             <button
                                 style={{ ...styles.PowerButton }} 
-                                onClick={() => toggleEntity(config.power_entity)}
+                                onClick={() => toggleEntity(hass, config.power_entity)}
                             >
                                 <IoPower />
                             </button>
@@ -99,7 +99,7 @@ const Card = ({ }) => {
                         config.light_entity ? (
                             <button 
                                 style={{ ...styles.PowerButton }} 
-                                onClick={() => toggleEntity(config.light_entity)}
+                                onClick={() => toggleEntity(hass, config.light_entity)}
                             >
                                 {
                                     light_on ? <FaLightbulb /> : <FaRegLightbulb />
