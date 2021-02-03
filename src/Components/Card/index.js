@@ -19,7 +19,10 @@ const Card = ({ }) => {
         hass
     } = useContext(ThreedyContext);
 
-    const [hiddenOverride, setHiddenOveride] = useState(false);
+    const [
+        hiddenOverride, 
+        setHiddenOveride
+    ] = useState(false);
 
     const theme = config.theme || 'Default';
 

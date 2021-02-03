@@ -4,9 +4,61 @@ import ThreedyContext from '../../Contexts/ThreedyContext';
 
 import styles from './styles';
 
-const DAYSEC = 60*60*24;
-const HRSEC = 60*60;
+const DAYSEC = 60 * 60 * 24;
+const HRSEC = 60 * 60;
 const MINSEC = 60;
+
+const VALID_TEMP_UNIT = ( unit ) => {
+
+    if (unit === undefined) return;
+
+    return ['K', 'C', 'F'].includes(unit);
+}
+
+/* From : To */
+const TEMP_CONVERSIONS = {
+    'C': {
+        'C': t => t,
+        'F': t => (t * 9.0 / 5.0) + 32.0,
+        'K': t => t + 273.15
+    },
+    'F': {
+        'C': t => (t - 32.0) * 5.0 / 9.0,
+        'F': t => t,
+        'K': t => ((t - 32.0) * 5.0 / 9.0) + 273.15
+    },
+    'K': {
+        'C': t => t - 273.15,
+        'F': t => (t - 273.15) * (9.0 / 5.0) + 32.0,
+        'K': t => t
+    },
+    '': {
+        'C': t => t,
+        'F': t => t,
+        'K': t => t
+    }
+}
+
+const TEMP_SOURCE = (entity) => {
+
+
+    const u = entity.attributes.unit_of_measurement;
+
+    if (u.includes('C')) {
+        return 'C';
+    }
+
+    if (u.includes('F')) {
+        return 'F';
+    }
+
+    if (u.includes('K')) {
+        return 'K'
+    }
+
+    return ''
+
+}
 
 
 const Stat = ({ condition }) => {
@@ -16,7 +68,43 @@ const Stat = ({ condition }) => {
         config
     } = useContext(ThreedyContext);
 
-    const round = config.round === undefined ? true : config.round;
+    const {
+        round: r,
+        temperature_unit
+    } = config;
+
+    const round = r === undefined ? true : r;
+
+    const temp_converted = (entity) => {
+
+        switch (temperature_unit) {
+
+            case 'C':
+                return TEMP_CONVERSIONS[
+                    TEMP_SOURCE(entity)
+                ]['C'](entity.state)
+            case 'F':
+                return TEMP_CONVERSIONS[
+                    TEMP_SOURCE(entity)
+                ]['F'](entity.state)
+            case 'K':
+                return TEMP_CONVERSIONS[
+                    TEMP_SOURCE(entity)
+                ]['K'](entity.state)
+            default:
+                return entity.state;
+        }
+
+    }
+
+    const temp_string = ( entity ) => {
+
+        const val_initial = temp_converted( entity );
+        const val = round ? Math.round(val_initial) : val_initial;
+        const unit = VALID_TEMP_UNIT(config.temperature_unit) ? '°' + config.temperature_unit : entity.attributes.unit_of_measurement
+        
+        return `${val}${unit}`
+    }
 
     const entityEnding = (() => {
         switch (condition) {
@@ -62,9 +150,9 @@ const Stat = ({ condition }) => {
             case 'Elapsed':
                 return format_seconds_elapsed(entity.state)
             case 'Hotend':
-                return `${round ? Math.round(entity.state) : entity.state}${entity.attributes.unit_of_measurement}`
+                return temp_string(entity);
             case 'Bed':
-                return `${round ? Math.round(entity.state) : entity.state}${entity.attributes.unit_of_measurement}`
+                return temp_string(entity);
             default:
                 return '<unknown>'
         }
@@ -72,8 +160,8 @@ const Stat = ({ condition }) => {
 
     return (
         <div style={{ ...styles.Stat }}>
-            <p style={{ ...styles.StatText, ...styles.Condition }}>{ condition }</p>
-            <p style={{ ...styles.StatText }}>{ formatEntityState() }</p>
+            <p style={{ ...styles.StatText, ...styles.Condition }}>{condition}</p>
+            <p style={{ ...styles.StatText }}>{formatEntityState()}</p>
         </div>
     )
 
@@ -88,12 +176,12 @@ const Stats = () => {
 
     const round = config.round === undefined ? true : config.round
 
-    const percentComplete = (hass.states[`${config.base_entity}_job_percentage`] || {state: -1.0}).state;
+    const percentComplete = (hass.states[`${config.base_entity}_job_percentage`] || { state: -1.0 }).state;
 
     return (
         <div style={{ ...styles.Stats }}>
             <div style={{ ...styles.Percent }}>
-                <p style={{ ...styles.PercentText }}>{ round ? Math.round(percentComplete) : percentComplete }%</p>
+                <p style={{ ...styles.PercentText }}>{round ? Math.round(percentComplete) : percentComplete}%</p>
             </div>
             <div style={{ ...styles.Monitored }}>
                 {
@@ -104,6 +192,6 @@ const Stats = () => {
     )
 
 
-} 
+}
 
 export default Stats;
