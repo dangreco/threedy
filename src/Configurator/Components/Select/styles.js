@@ -37,7 +37,8 @@ const styles = {
         boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
         zIndex: 999999,
         opacity: 0,
-        transform: 'scale(0.0)'
+        transform: 'scaleY(0.0)',
+        transformOrigin: 'top center'
     },
     Option: {
         width: '100%',

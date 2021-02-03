@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useElementScroll } from 'framer-motion';
 
 import { FiChevronDown } from 'react-icons/fi';
 
@@ -10,6 +10,9 @@ const Select = ({ options, placeholder, initial, onSelect = (s) => {} }) => {
     const [selection, setSelection] = useState(initial);
     const [hidden, setHidden] = useState(true);
     const [active, setActive] = useState(false);
+
+    const selectRef = useRef();
+    const optionsRef = useRef();
 
     const showOptions = () => {
         setHidden(false);
@@ -28,10 +31,32 @@ const Select = ({ options, placeholder, initial, onSelect = (s) => {} }) => {
         hideOptions();
     }
 
+    /* Function to Detect Outside Click & Collapse */
+    const handleClick = e => {
+    
+        const inSelect = selectRef.current.contains(e.target);
+        const inOptions = optionsRef.current.contains(e.target);
+
+        /* Outside of Select; Collapse */
+        if (!(inSelect || inOptions)) {
+            setHidden(true);
+        }
+
+    }
+
+    useEffect(() => {
+
+        document.addEventListener('mousedown', handleClick);
+
+        return () => document.removeEventListener("mousedown", handleClick);
+
+    }, []);
+
     return (
         <div style={{ ...styles.Select }}>
 
-            <motion.button 
+            <motion.button
+                ref={selectRef}
                 animate={{
                     backgroundColor: active ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)'
                 }}
@@ -51,9 +76,10 @@ const Select = ({ options, placeholder, initial, onSelect = (s) => {} }) => {
             </motion.button>
 
             <motion.div 
+                ref={optionsRef}
                 animate={{
                     opacity: hidden ? 0.0 : 1.0,
-                    scale: hidden ? 0.0 : 1.0
+                    scaleY: hidden ? 0.0 : 1.0
                 }}
                 transition={{
                     duration: 0.15,
