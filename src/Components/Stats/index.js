@@ -109,15 +109,15 @@ const Stat = ({ condition }) => {
     const entityEnding = (() => {
         switch (condition) {
             case 'Status':
-                return '_current_state'
+                return config.use_mqtt ? '_print_status' : '_current_state'
             case 'ETA':
-                return '_time_remaining'
+                return config.use_mqtt ? '_print_time_left' : '_time_remaining'
             case 'Elapsed':
-                return '_time_elapsed'
+                return config.use_mqtt ? '_print_time' : '_time_elapsed'
             case 'Hotend':
-                return '_actual_tool0_temp'
+                return config.use_mqtt ? '_tool_0_temperature' : '_actual_tool0_temp'
             case 'Bed':
-                return '_actual_bed_temp'
+                return config.use_mqtt ? '_bed_temperature' : '_actual_bed_temp'
             default:
                 return undefined
         }
@@ -137,6 +137,13 @@ const Stat = ({ condition }) => {
         return `${days > 0 ? days + 'd ' : ''}${hours > 0 ? hours + 'h ' : ''}${minutes > 0 ? minutes + "m " : ''}${seconds > 0 ? seconds + "s" : ''}`;
     }
 
+    const string_to_seconds = (s) => {
+        var t = s.split(':').reverse ();
+        return ((t.length >= 3) ? (+t[2]): 0)*60*60 + 
+               ((t.length >= 2) ? (+t[1]): 0)*60 + 
+               ((t.length >= 1) ? (+t[0]): 0);
+    }
+
     const formatEntityState = () => {
 
         if (entity === undefined)
@@ -146,9 +153,9 @@ const Stat = ({ condition }) => {
             case 'Status':
                 return entity.state
             case 'ETA':
-                return moment().add(entity.state, 's').format(config.use_24hr ? 'HH:mm' : 'h:mm a')
+                return moment().add(config.use_mqtt ? string_to_seconds(entity.state) : entity.state, 's').format(config.use_24hr ? 'HH:mm' : 'h:mm a')
             case 'Elapsed':
-                return format_seconds_elapsed(entity.state)
+                return config.use_mqtt ? format_seconds_elapsed(string_to_seconds(entity.state)) : format_seconds_elapsed(entity.state)
             case 'Hotend':
                 return temp_string(entity);
             case 'Bed':
@@ -176,7 +183,7 @@ const Stats = () => {
 
     const round = config.round === undefined ? true : config.round
 
-    const percentComplete = (hass.states[`${config.base_entity}_job_percentage`] || { state: -1.0 }).state;
+    const percentComplete = (hass.states[config.use_mqtt ? `${config.base_entity}_print_progress` : `${config.base_entity}_job_percentage`] || { state: -1.0 }).state;
 
     return (
         <div style={{ ...styles.Stats }}>

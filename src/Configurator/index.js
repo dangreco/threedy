@@ -21,10 +21,10 @@ const Configurator = ({ hass, config, threedy }) => {
     const printers = [];
     const [modifiedConfig, setModifiedConfig] = useState(config);
 
-    Object.keys(hass.states).filter(entityId => (/sensor\..*_current_state/g).test(entityId)).map(
+    Object.keys(hass.states).filter(entityId => (/sensor\..*(_current_state|_print_status)/g).test(entityId)).map(
         entityId => {
 
-            const base_entity = entityId.replace('_current_state', '');
+            const base_entity = entityId.replace(/(_current_state|_print_progress)/, '');
             const printerSlug = base_entity.replace('sensor.', '');
             const printerName = printerSlug.split("_").map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(" ");
 
