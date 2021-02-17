@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useElementScroll } from 'framer-motion';
+import useEventListener from "@use-it/event-listener";
 
 import { FiChevronDown } from 'react-icons/fi';
 
@@ -14,27 +15,10 @@ const Option = ({ onClick, children }) => {
     const mouseDown = () => setActive(true);
     const mouseUp = () => setActive(false);
 
-    /* Function to Detect Outside Click & Make inactive */
-    const handleClick = e => {
-
-        if (!ref.current.contains(e.target)) {
-            setActive(false);
-        }
-
-    }
-
-    useEffect(() => {
-
-        document.addEventListener('mousedown', handleClick);
-
-        return () => document.removeEventListener("mousedown", handleClick);
-
-    }, []);
-
     return (
-        <motion.button 
+        <motion.button
             ref={ref}
-            style={{ ...styles.Option }} 
+            style={{ ...styles.Option }}
             animate={{
                 filter: active ? 'brightness(80%)' : 'brightness(100%)'
             }}
@@ -66,35 +50,14 @@ const Select = ({ options, placeholder, initial, onSelect = (s) => { } }) => {
         setHidden(true);
     }
 
-    const selectOption = (option) => {
-        setSelection(option);
+    const selectOption = (key) => {
+        setSelection(key);
         onSelect({
-            key: option,
-            value: options[option]
+            key: key,
+            value: options[key]
         })
         hideOptions();
     }
-
-    /* Function to Detect Outside Click & Collapse */
-    const handleClick = e => {
-
-        const inSelect = selectRef.current.contains(e.target);
-        const inOptions = optionsRef.current.contains(e.target);
-
-        /* Outside of Select; Collapse */
-        if (!(inSelect || inOptions)) {
-            setHidden(true);
-        }
-
-    }
-
-    useEffect(() => {
-
-        document.addEventListener('mousedown', handleClick);
-
-        return () => document.removeEventListener("mousedown", handleClick);
-
-    }, []);
 
     return (
         <div style={{ ...styles.Select }}>
@@ -115,7 +78,7 @@ const Select = ({ options, placeholder, initial, onSelect = (s) => { } }) => {
                 onMouseEnter={() => setActive(true)}
                 onMouseLeave={() => setActive(false)}
             >
-                {selection ? options[selection] : placeholder}
+                {selection ? selection : placeholder}
                 <FiChevronDown />
             </motion.button>
 
@@ -134,7 +97,7 @@ const Select = ({ options, placeholder, initial, onSelect = (s) => { } }) => {
                 {
                     Object.keys(options).map(key => (
                         <Option onClick={() => selectOption(key)}>
-                            { options[key] }
+                            { key }
                         </Option>
                     ))
                 }

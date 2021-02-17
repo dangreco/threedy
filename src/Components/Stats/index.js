@@ -12,30 +12,22 @@ const VALID_TEMP_UNIT = ( unit ) => {
 
     if (unit === undefined) return;
 
-    return ['K', 'C', 'F'].includes(unit);
+    return ['C', 'F'].includes(unit);
 }
 
 /* From : To */
 const TEMP_CONVERSIONS = {
     'C': {
         'C': t => t,
-        'F': t => (t * 9.0 / 5.0) + 32.0,
-        'K': t => t + 273.15
+        'F': t => (t * 9.0 / 5.0) + 32.0
     },
     'F': {
         'C': t => (t - 32.0) * 5.0 / 9.0,
-        'F': t => t,
-        'K': t => ((t - 32.0) * 5.0 / 9.0) + 273.15
-    },
-    'K': {
-        'C': t => t - 273.15,
-        'F': t => (t - 273.15) * (9.0 / 5.0) + 32.0,
-        'K': t => t
+        'F': t => t
     },
     '': {
         'C': t => t,
-        'F': t => t,
-        'K': t => t
+        'F': t => t
     }
 }
 
@@ -52,9 +44,6 @@ const TEMP_SOURCE = (entity) => {
         return 'F';
     }
 
-    if (u.includes('K')) {
-        return 'K'
-    }
 
     return ''
 
@@ -87,10 +76,6 @@ const Stat = ({ condition }) => {
                 return TEMP_CONVERSIONS[
                     TEMP_SOURCE(entity)
                 ]['F'](entity.state)
-            case 'K':
-                return TEMP_CONVERSIONS[
-                    TEMP_SOURCE(entity)
-                ]['K'](entity.state)
             default:
                 return entity.state;
         }
@@ -102,7 +87,7 @@ const Stat = ({ condition }) => {
         const val_initial = temp_converted( entity );
         const val = round ? Math.round(val_initial) : val_initial;
         const unit = VALID_TEMP_UNIT(config.temperature_unit) ? '°' + config.temperature_unit : entity.attributes.unit_of_measurement
-        
+
         return `${val}${unit}`
     }
 

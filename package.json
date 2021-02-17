@@ -7,6 +7,7 @@
   "author": "Dan Greco",
   "license": "MIT",
   "dependencies": {
+    "@use-it/event-listener": "^0.1.6",
     "framer-motion": "^3.2.2-rc.1",
     "moment": "^2.29.1",
     "react": "^17.0.1",

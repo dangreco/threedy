@@ -47,7 +47,6 @@ const styles = {
         border: 'none',
         outline: 'none',
         backgroundColor: 'transparent',
-        boxSizing: 'border-box',
         padding: 24,
     },
     HeaderText: {

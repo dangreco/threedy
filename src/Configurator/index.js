@@ -1,118 +1,198 @@
 import React, { useEffect, useState } from 'react';
-import DragDrop from './Components/DragDrop';
+import { motion } from 'framer-motion';
+
+import Button from './Components/Button';
 import Input from './Components/Input';
 import MultiSelector from './Components/MultiSelector';
 import Select from './Components/Select';
 
+import {
+    conditions,
+    getPrinters,
+    getToggleables,
+    printerName,
+    printerTypes,
+    themes,
+    updateConfig,
+    updateValue
+} from './utils';
+
 import styles from './styles';
-
-
-const defaultConditions = [
-    'Status',
-    'ETA',
-    'Elapsed',
-    'Hotend',
-    'Bed'
-]
+import FewSelector from "./Components/FewSelector";
 
 
 const Configurator = ({ hass, config, threedy }) => {
 
-    const printers = [];
+    const printers = getPrinters(hass);
+    const toggleables = getToggleables(hass);
+
     const [modifiedConfig, setModifiedConfig] = useState(config);
-
-    Object.keys(hass.states).filter(entityId => (/sensor\..*_current_state/g).test(entityId)).map(
-        entityId => {
-
-            const base_entity = entityId.replace('_current_state', '');
-            const printerSlug = base_entity.replace('sensor.', '');
-            const printerName = printerSlug.split("_").map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(" ");
-
-
-            printers[base_entity] = printerName;
-        }
-    )
+    const [advancedShown, setAdvancedShown] = useState(false);
 
     useEffect(() => {
         setModifiedConfig(config);
     }, [config])
 
-    const updateConfig = (updates) => {
+    const _updateConfig = ( updates ) => setModifiedConfig( updateConfig(threedy, modifiedConfig, updates) );
+    const _updateValue = (key, value) => updateValue( _updateConfig, key, value);
 
-        const event = new Event("config-changed", {
-            bubbles: true,
-            composed: true
-        });
-        event.detail = {
-            config: {
-                ...modifiedConfig,
-                ...updates
-            }
-        };
-        threedy.dispatchEvent(event);
-        setModifiedConfig(event.detail.config);
-    }
-
-    const changePrinter = ({ key: base_entity, value: name }) => {
-        updateConfig({
-            base_entity,
-            name
-        });
-    }
-
-    const changePrinterType = ({ key: printer_type, value: _ }) => {
-        updateConfig({
-            printer_type
-        })
-    }
-
-    const changePrinterName = (printerName) => {
-        updateConfig({
-            name: printerName
-        })
-    }
-
-    const changeMonitored = (monitored) => {
-        updateConfig({
-            monitored
-        })
-    }
-
-    if (!config) return <div></div>
+    if (!config) return (<div></div>)
 
     return (
-        <div style={{ ...styles.Configurator }}>
-            <p style={{ ...styles.Label }}>Printer</p>
-            <Select
-                placeholder="Select..."
-                options={printers}
-                onSelect={changePrinter}
-                initial={config.base_entity}
-            />
+        <div style={{ ...styles.Root }}>
+
+            <div style={{ ...styles.Configurator }}>
+
+                <p style={{ ...styles.Label }}>Printer</p>
+                <Select
+                    placeholder="Select..."
+                    options={printers}
+                    onSelect={(s) => _updateValue('base_entity', s.value)}
+                    initial={ printerName(config.base_entity) }
+                />
+
+                {
+                    modifiedConfig ? modifiedConfig.base_entity ? (
+                        <>
+                            <p style={{ ...styles.Label }}>Printer Type</p>
+                            <Select
+                                placeholder="Select..."
+                                options={ printerTypes }
+                                onSelect={({key, value}) => _updateValue('printer_type', value)}
+                                initial={config.printer_type}
+                            />
+
+                            <p style={{ ...styles.Label }}>Name</p>
+                            <Input
+                                onUpdate={value => _updateValue('name', value)}
+                                initial={config.name || modifiedConfig.name}
+                            />
+
+                            <p style={{ ...styles.Label }}>Monitored</p>
+                            <MultiSelector
+                                items={conditions}
+                                initial={config.monitored}
+                                onChange={selectedValues => _updateValue('monitored', selectedValues)}
+                            />
+
+                            <div style={{ ...styles.ButtonContainer }}>
+
+                                <Button onClick={() => setAdvancedShown(true)} style={{ alignSelf: 'center' }}>
+                                    Advanced
+                                </Button>
+
+                            </div>
+
+                        </>
+                    ) : (null) : (null)
+                }
+
+
+
+            </div>
 
             {
-                modifiedConfig ? modifiedConfig.name ? (
-                    <>
-                        <p style={{ ...styles.Label }}>Printer Type</p>
-                        <Select
-                            placeholder="Select..."
-                            options={{
-                                "I3": "I3",
-                                "Cantilever": "Cantilever"
-                            }}
-                            onSelect={changePrinterType}
-                            initial={config.printer_type}
-                        />
+                modifiedConfig ? modifiedConfig.base_entity ? (
+                    <motion.div
+                        animate={{
+                            left: advancedShown ? 0 : '-100%',
+                            opacity: advancedShown ? 1.0 : 0.0
+                        }}
+                        style={{...styles.Advanced}}
+                    >
 
-                        <p style={{ ...styles.Label }}>Name</p>
-                        <Input
-                            onUpdate={changePrinterName}
-                            initial={config.name || modifiedConfig.name}
-                        />
+                        <div style={{ ...styles.ButtonContainer, justifyContent: 'flex-start' }} >
 
-                        <p style={{ ...styles.Label }}>Monitored</p>
-                        <MultiSelector items={defaultConditions} initial={config.monitored} onChange={changeMonitored} />
-                    </>
+                            <div style={{ ...styles.Configurator }}>
+
+                                <Button onClick={() => setAdvancedShown(false)} style={{ alignSelf: 'center' }}>
+                                    Back
+                                </Button>
+
+
+                                <p style={{ ...styles.Label }}>Theme</p>
+                                <Select
+                                    placeholder={"Select..."}
+                                    options={ themes }
+                                    onSelect={({key, value}) => _updateValue('theme', value)}
+                                    initial={config.theme}
+                                />
+
+                                <p style={{ ...styles.Label }}>Font</p>
+                                <Input
+                                    onUpdate={value => _updateValue('font', value)}
+                                    initial={config.font || modifiedConfig.font}
+                                />
+
+
+                                <p style={{ ...styles.Label }}>Scale</p>
+                                <FewSelector
+                                    onUpdate={(key, value) => _updateValue('scale', value)}
+                                    initial={config.scale || modifiedConfig.scale}
+                                    options={{
+                                        '0.5': 0.5,
+                                        '0.75': 0.75,
+                                        '1.0': 1.0,
+                                    }}
+                                />
+
+
+                                <p style={{ ...styles.Label }}>Round</p>
+                                <FewSelector
+                                    onUpdate={(key, value) => _updateValue('round', value)}
+                                    initial={config.round || modifiedConfig.round}
+                                    options={{
+                                        'No': false,
+                                        'Yes': true
+                                    }}
+                                />
+
+
+                                <p style={{ ...styles.Label }}>Temperature Unit</p>
+                                <FewSelector
+                                    onUpdate={(key, value) => _updateValue('temperature_unit', value)}
+                                    initial={config.temperature_unit || modifiedConfig.temperature_unit}
+                                    options={{
+                                        '°C': 'C',
+                                        '°F': 'F',
+                                    }}
+                                />
+
+
+                                <p style={{ ...styles.Label }}>Use 24hr Time</p>
+                                <FewSelector
+                                    onUpdate={(key, value) => _updateValue('use_24hr', value)}
+                                    initial={config.use_24hr || modifiedConfig.use_24hr}
+                                    options={{
+                                        'No': false,
+                                        'Yes': true
+                                    }}
+                                />
+
+                                <p style={{ ...styles.Label }}>Power Entity</p>
+                                <Select
+                                    placeholder="Select..."
+                                    options={toggleables}
+                                    onSelect={(s) => _updateValue('power_entity', s.value)}
+                                    initial={ config.power_entity || modifiedConfig.power_entity }
+                                />
+
+                                <p style={{ ...styles.Label }}>Light Entity</p>
+                                <Select
+                                    placeholder="Select..."
+                                    options={toggleables}
+                                    onSelect={(s) => _updateValue('light_entity', s.value)}
+                                    initial={ config.light_entity || modifiedConfig.light_entity }
+                                />
+
+
+                            </div>
+
+
+                        </div>
+
+                    </motion.div>
+
                 ) : (null) : (null)
             }
 
