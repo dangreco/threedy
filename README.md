@@ -12,7 +12,7 @@
 - [Features](#-features)
 - [Prerequisites](#-prerequisites)
 - [Installation](#-installation)
-  - [~~Method 1: HACS~~](#method-1-hacs)
+  - [Method 1: HACS](#method-1-hacs)
   - [Method 2: Manual](#method-2-manual)
 - [Config](#-config)
   - [Graphical](#-Graphical)
@@ -49,7 +49,11 @@
 
 ## Installation
 ---
-### ~~Method 1: HACS~~
+### Method 1: HACS
+1. Open _HACS_ and navigate to _Frontend_ Section
+2. Open the Overflow Menu (⋮) in the top right corner and click on _Custom repositories_
+3. Paste `https://github.com/dangreco/threedy` into the input field and select `Lovelace` from the dropdown
+4. Click the Install Button on the highlighted Card titled _threedy_
 
 ### Method 2: Manual
 
