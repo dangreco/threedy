@@ -29,7 +29,7 @@ const Card = ({ }) => {
 
     const borderRadius = styles[theme] ? styles[theme].borderRadius : styles['Default'].borderRadius;
 
-    const state = (hass.states[`${config.base_entity}_current_state`] || {state: 'unknown'}).state
+    const state = (hass.states[config.use_mqtt ? `${config.base_entity}_print_status` : `${config.base_entity}_current_state`] || {state: 'unknown'}).state
     const light_on = config.light_entity ? (hass.states[config.light_entity] || {state: 'off'}).state === 'on' : false;
 
     const neumorphicShadow = hass.themes.darkMode ? '-5px -5px 8px rgba(50, 50, 50,.2),5px 5px 8px rgba(0,0,0,.08)' : '-4px -4px 8px rgba(255,255,255,.5),5px 5px 8px rgba(0,0,0,.03)'

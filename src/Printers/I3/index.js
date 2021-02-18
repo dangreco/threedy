@@ -25,8 +25,8 @@ const I3 = ({ printerConfig }) => {
     });
 
 
-    const printing = (hass.states[`${config.base_entity}_current_state`] || { state: "unknown" }).state === 'Printing';
-    const progress = (hass.states[`${config.base_entity}_job_percentage`] || { state: 0 }).state / 100;
+    const printing = (hass.states[config.use_mqtt ? `${config.base_entity}_print_status` : `${config.base_entity}_current_state`] || { state: "unknown" }).state === 'Printing';
+    const progress = (hass.states[config.use_mqtt ? `${config.base_entity}_print_progress` : `${config.base_entity}_job_percentage`] || { state: 0 }).state / 100;
 
     const x = useMotionValue(0);
 

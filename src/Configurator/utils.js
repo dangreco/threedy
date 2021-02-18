@@ -25,7 +25,7 @@ const printerName = ( entityId ) => {
     }
 
     return entityId
-        .replace('_current_state', '')
+        .replace(/(_current_state|_print_progress)/, '')
         .replace('sensor.', '')
         .split("_")
         .map(s => s.charAt(0).toUpperCase() + s.substring(1))
@@ -41,16 +41,15 @@ const printerBase = ( entityId ) => {
     }
 
     return entityId
-        .replace('_current_state', '');
+        .replace(/(_current_state|_print_progress)/, '');
 
 }
 
 const getPrinters = ( hass ) => {
 
     const printers = {};
-
     Object.keys( hass.states ).filter(
-        entityId => (/sensor\..*_current_state/g).test(entityId)
+        entityId => (/sensor\..*(_current_state|_print_progress)/g).test(entityId)
     ).map(
         entityId => {
 
