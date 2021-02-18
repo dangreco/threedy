@@ -7,7 +7,7 @@ import MultiSelector from './Components/MultiSelector';
 import Select from './Components/Select';
 
 import {
-    conditions,
+    conditions, getCameras,
     getPrinters,
     getToggleables,
     printerName,
@@ -25,6 +25,7 @@ const Configurator = ({ hass, config, threedy }) => {
 
     const printers = getPrinters(hass);
     const toggleables = getToggleables(hass);
+    const cameras = getCameras(hass);
 
     const [modifiedConfig, setModifiedConfig] = useState(config);
     const [advancedShown, setAdvancedShown] = useState(false);
@@ -167,6 +168,14 @@ const Configurator = ({ hass, config, threedy }) => {
                                         'No': false,
                                         'Yes': true
                                     }}
+                                />
+
+                                <p style={{ ...styles.Label }}>Camera Entity</p>
+                                <Select
+                                    placeholder="Select..."
+                                    options={cameras}
+                                    onSelect={(s) => _updateValue('camera_entity', s.value)}
+                                    initial={ config.camera_entity || modifiedConfig.camera_entity }
                                 />
 
                                 <p style={{ ...styles.Label }}>Power Entity</p>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import ThreedyContext from '../../Contexts/ThreedyContext';
 import Cantilever from '../../Printers/Cantilever';
 import Defaults from '../../Printers/Defaults';
@@ -6,13 +6,14 @@ import I3 from '../../Printers/I3';
 
 import styles from './styles';
 
-const PrinterView = () => {
+const PrinterView = ({ toggleVideo, hasCamera }) => {
 
     const {
         hass,
         config
     } = useContext(ThreedyContext);
 
+    const ref = useRef();
 
     const getPrinterType = () => {
 
@@ -29,8 +30,24 @@ const PrinterView = () => {
 
     let Printer = getPrinterType();
 
+    useEffect(() => {
+
+        if (!ref.current) return
+
+        ref.current.addEventListener("click", toggleVideo);
+
+        return () => ref.current.removeEventListener("click", toggleVideo);
+
+    }, [ref])
+
     return (
-        <div style={{ ...styles.PrinterView }}>
+        <div
+            ref={ref}
+            style={{
+                ...styles.PrinterView,
+                cursor: hasCamera ? 'pointer' : 'default'
+            }}
+        >
             <Printer printerConfig={config.printer_config || Defaults[config.printer_type]} />
         </div>
     )

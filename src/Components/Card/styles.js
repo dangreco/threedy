@@ -7,7 +7,9 @@ const styles = {
         justifyCcontent: 'center',
         alignItems: 'stretch',
         boxSizing: 'borderBox',
-        background: 'var( --ha-card-background, var(--card-background-color, white) )'
+        background: 'var( --ha-card-background, var(--card-background-color, white) )',
+        position: 'relative',
+        overflow: 'hidden'
     },
     Section: {
         boxSizing: 'border-box',

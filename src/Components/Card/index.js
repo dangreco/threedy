@@ -10,6 +10,7 @@ import PrinterView from '../PrinterView';
 import Stats from '../Stats';
 
 import styles from './styles';
+import Camera from "../Camera";
 
 
 const Card = ({ }) => {
@@ -20,29 +21,42 @@ const Card = ({ }) => {
     } = useContext(ThreedyContext);
 
     const [
-        hiddenOverride, 
+        hiddenOverride,
         setHiddenOveride
     ] = useState(false);
+
+    const [
+        showVideo,
+        setShowVideo
+    ] = useState(false);
+
+    const toggleVideo = config.camera_entity ? () => {
+        setShowVideo(!showVideo)
+    } : () => {}
+
+
+    const cameraEntity = config.camera_entity ? hass.states[config.camera_entity] || undefined : undefined;
+
 
     const theme = config.theme || 'Default';
 
 
     const borderRadius = styles[theme] ? styles[theme].borderRadius : styles['Default'].borderRadius;
 
-    const state = (hass.states[`${config.base_entity}_current_state`] || {state: 'unknown'}).state
+    const state = (hass.states[config.use_mqtt ? `${config.base_entity}_print_status` : `${config.base_entity}_current_state`] || {state: 'unknown'}).state
     const light_on = config.light_entity ? (hass.states[config.light_entity] || {state: 'off'}).state === 'on' : false;
 
     const neumorphicShadow = hass.themes.darkMode ? '-5px -5px 8px rgba(50, 50, 50,.2),5px 5px 8px rgba(0,0,0,.08)' : '-4px -4px 8px rgba(255,255,255,.5),5px 5px 8px rgba(0,0,0,.03)'
     const defaultShadow = 'var( --ha-card-box-shadow, 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12) )'
 
     const hidden = state !== 'Printing' && !hiddenOverride;
-    const statusColor = 
-        state === 'Printing' ? 
-            "#4caf50" 
-            : state === "unknown" ? 
-                "#f44336" 
-                : state === "Operational" ? 
-                    "#00bcd4" 
+    const statusColor =
+        state === 'Printing' ?
+            "#4caf50"
+            : state === "unknown" ?
+                "#f44336"
+                : state === "Operational" ?
+                    "#00bcd4"
                     : "#ffc107"
 
     return (
@@ -58,13 +72,13 @@ const Card = ({ }) => {
         >
             <div style={{ ...styles.Root }}>
 
-                <div 
-                    style={{ 
-                        ...styles.Header, 
-                        justifyContent: config.power_entity || config.light_entity ? 'space-between' : 'center' 
+                <div
+                    style={{
+                        ...styles.Header,
+                        justifyContent: config.power_entity || config.light_entity ? 'space-between' : 'center'
                     }}
                 >
-                    
+
                     {
                         config.light_entity && !config.power_entity ? (
                             <div style={{ ...styles.PowerButton }} />
@@ -74,7 +88,7 @@ const Card = ({ }) => {
                     {
                         config.power_entity ? (
                             <button
-                                style={{ ...styles.PowerButton }} 
+                                style={{ ...styles.PowerButton }}
                                 onClick={() => toggleEntity(hass, config.power_entity)}
                             >
                                 <IoPower />
@@ -82,8 +96,8 @@ const Card = ({ }) => {
                         ) : (null)
                     }
 
-                    <button 
-                        style={{ ...styles.NameStatus }} 
+                    <button
+                        style={{ ...styles.NameStatus }}
                         onClick={() => setHiddenOveride(!hiddenOverride)}
                     >
                         <div
@@ -97,8 +111,8 @@ const Card = ({ }) => {
 
                     {
                         config.light_entity ? (
-                            <button 
-                                style={{ ...styles.PowerButton }} 
+                            <button
+                                style={{ ...styles.PowerButton }}
                                 onClick={() => toggleEntity(hass, config.light_entity)}
                             >
                                 {
@@ -122,13 +136,16 @@ const Card = ({ }) => {
                     transition={{ ease: "easeInOut", duration: 0.25 }}
                 >
                     <div style={{ ...styles.Section }}>
-                        <PrinterView />
+                        <PrinterView
+                            toggleVideo={toggleVideo}
+                            hasCamera={config.camera_entity !== undefined}
+                        />
                     </div>
-                    <div 
-                        style={{ 
-                            ...styles.Section, 
-                            paddingLeft: 16, 
-                            paddingRight: 32 
+                    <div
+                        style={{
+                            ...styles.Section,
+                            paddingLeft: 16,
+                            paddingRight: 32
                         }}
                     >
                         <Stats />
@@ -136,6 +153,16 @@ const Card = ({ }) => {
                 </motion.div>
 
             </div>
+
+            {
+                cameraEntity ? (
+                    <Camera
+                        visible={showVideo}
+                        toggleVideo={() => setShowVideo(false)}
+                        cameraEntity={cameraEntity}
+                    />
+                ) : (null)
+            }
 
         </motion.div>
     )
