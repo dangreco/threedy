@@ -112,6 +112,7 @@ monitored:
   - Status
   - ETA
   - Elapsed
+  - Remaining
   - Hotend
   - Bed
 # optionals  

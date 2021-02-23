@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NotConfigured from './Components/NotConfigured';
-import ThreedyWrapper from './Components/ThreedyWrapper';
+import ThreedyWrapper from "./Components/ThreedyWrapper";
 import Configurator from './Configurator';
 
 class ThreedyEditor extends HTMLElement {
@@ -92,7 +92,10 @@ class ThreedyCard extends HTMLElement {
 
 customElements.define('threedy-card', ThreedyCard);
 
+
+// @ts-ignore
 window.customCards = window.customCards || [];
+// @ts-ignore
 window.customCards.push({
     type: 'threedy-card',
     name: "Threedy Card",

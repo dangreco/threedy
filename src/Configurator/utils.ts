@@ -3,7 +3,8 @@ const conditions = [
     'ETA',
     'Elapsed',
     'Hotend',
-    'Bed'
+    'Bed',
+    'Remaining'
 ];
 
 const printerTypes = {

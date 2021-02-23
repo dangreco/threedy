@@ -39,6 +39,7 @@ const Configurator = ({ hass, config, threedy }) => {
 
     if (!config) return (<div></div>)
 
+    // @ts-ignore
     return (
         <div style={{ ...styles.Root }}>
 
@@ -65,6 +66,7 @@ const Configurator = ({ hass, config, threedy }) => {
 
                             <p style={{ ...styles.Label }}>Name</p>
                             <Input
+                                placeholder={"Name"}
                                 onUpdate={value => _updateValue('name', value)}
                                 initial={config.name || modifiedConfig.name}
                             />
@@ -121,6 +123,7 @@ const Configurator = ({ hass, config, threedy }) => {
 
                                 <p style={{ ...styles.Label }}>Font</p>
                                 <Input
+                                    placeholder={"Font"}
                                     onUpdate={value => _updateValue('font', value)}
                                     initial={config.font || modifiedConfig.font}
                                 />

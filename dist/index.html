@@ -29,10 +29,10 @@
                             }
                         },
                         'sensor.ender_3_v2_time_elapsed' : {
-                            state: 5734,
+                            state: 37,
                         },
                         'sensor.ender_3_v2_time_remaining' : {
-                            state: 5734,
+                            state: 65,
                         },
                         'switch.ender': {
 
@@ -67,6 +67,8 @@
                     scale: 1,
                     temperature_unit: 'F',
                     printer_type: 'I3',
+                    round_temperature: true,
+                    use_24hr: true,
                     light_entity: 'switch.light',
                     camera_entity: "camera.test",
                     font: 'Assistant',
@@ -75,7 +77,8 @@
                         "Hotend",
                         "Bed",
                         "Elapsed",
-                        "ETA"
+                        "ETA",
+                        "Remaining"
                     ]
                 })
             }

@@ -3,7 +3,12 @@ import { motion } from 'framer-motion';
 
 import styles from './styles';
 
-const Button = ({ onClick, children, style }) => {
+type ButtonProps = {
+    onClick: Function,
+    style: Object
+}
+
+const Button: React.FC<ButtonProps> = ({ onClick, style, children }) => {
 
     const [active, setActive] = useState(false);
 
@@ -16,7 +21,7 @@ const Button = ({ onClick, children, style }) => {
         }
 
     }
-    
+
     return (
         <motion.button
             ref={ref}
