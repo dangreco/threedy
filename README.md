@@ -31,6 +31,7 @@
 ---
 
 - Live animation of 3D printer
+- Live camera view
 - Current states of various OctoPrint sensors
 - Tap to show/hide when printer is idle
 - Power button for a switch entity
@@ -96,6 +97,7 @@
 - ```use_24hr``` &mdash; Use 24 hour time format instead of 12 hour.
 - ```use_mqtt``` &mdash; Use [MQTT integration](https://plugins.octoprint.org/plugins/homeassistant/) instead of OctoPrint API.
 - ```printer_config``` &mdash; Use in with ```printer_type``` to set a custom printer style. If omitted, the default for the type will be used. Use [this tool](https://google.com) to create a custom value.
+- ```camera_entity``` &mdash; Specify the entity ID of the camera entity you want to display **when the printer graphic is clicked**.
 - ```light_entity``` &mdash; Specify the entity ID of a light you want to toggle for the printer.
 - ```power_entity``` &mdash; Specify the entity ID of a power switch you want to toggle for the printer.
 
