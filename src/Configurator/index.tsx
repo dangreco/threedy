@@ -141,10 +141,20 @@ const Configurator = ({ hass, config, threedy }) => {
                                 />
 
 
-                                <p style={{ ...styles.Label }}>Round</p>
+                                <p style={{ ...styles.Label }}>Round Time</p>
                                 <FewSelector
-                                    onUpdate={(key, value) => _updateValue('round', value)}
-                                    initial={config.round || modifiedConfig.round}
+                                    onUpdate={(key, value) => _updateValue('round_time', value)}
+                                    initial={config.round_time || modifiedConfig.round_time}
+                                    options={{
+                                        'No': false,
+                                        'Yes': true
+                                    }}
+                                />
+
+                                <p style={{ ...styles.Label }}>Round Temperature</p>
+                                <FewSelector
+                                    onUpdate={(key, value) => _updateValue('round_temperature', value)}
+                                    initial={config.round_temperature || modifiedConfig.round_temperature}
                                     options={{
                                         'No': false,
                                         'Yes': true
