@@ -15,15 +15,17 @@ const Cantilever = ({ printerConfig }) => {
 
     const [dimensions, setDimensions] = useState(undefined);
 
-    const { ref, width, height, entry, unobserve, observe } = useDimensions({
-        onResize: ({ width, height, entry, unobserve, observe }) => {
+    const { ref } = useDimensions({
+        onResize: ({ width, height}) => {
             setDimensions(
-                getDimensions(printerConfig, { width, height }, config.scale || 1.0)
+                getDimensions(
+                    printerConfig,
+                    { width, height },
+                    config.scale || 1.0
+                )
             )
         },
     });
-
-
 
     const printing = (hass.states[config.use_mqtt ? `${config.base_entity}_print_status` : `${config.base_entity}_current_state`] || { state: "unknown" }).state === 'Printing';
     const progress = (hass.states[config.use_mqtt ? `${config.base_entity}_print_progress` : `${config.base_entity}_job_percentage`] || { state: 0 }).state / 100;
@@ -35,7 +37,7 @@ const Cantilever = ({ printerConfig }) => {
         if (dimensions && printing) {
             return animate(x, dimensions.BuildPlate.width, {
                 duration: 2,
-                repeat: 'Infinity',
+                repeat: Infinity,
                 repeatType: 'reverse',
                 ease: 'linear'
             })

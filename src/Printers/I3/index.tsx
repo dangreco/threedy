@@ -16,10 +16,14 @@ const I3 = ({ printerConfig }) => {
 
     const [dimensions, setDimensions] = useState(undefined);
 
-    const { ref, width, height, entry, unobserve, observe } = useDimensions({
-        onResize: ({ width, height, entry, unobserve, observe }) => {
+    const { ref } = useDimensions({
+        onResize: ({ width, height}) => {
             setDimensions(
-                getDimensions(printerConfig, {width, height}, config.scale || 1.0)
+                getDimensions(
+                    printerConfig,
+                    {width, height},
+                    config.scale || 1.0
+                )
             )
         },
     });
@@ -35,7 +39,7 @@ const I3 = ({ printerConfig }) => {
         if (dimensions && printing) {
             return animate(x, dimensions.BuildPlate.width, {
                 duration: 2,
-                repeat: 'Infinity',
+                repeat: Infinity,
                 repeatType: 'reverse',
                 ease: 'linear'
             })

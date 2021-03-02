@@ -7,18 +7,17 @@ import MultiSelector from './Components/MultiSelector';
 import Select from './Components/Select';
 
 import {
-    conditions, getCameras,
+    getCameras,
     getPrinters,
     getToggleables,
     printerName,
-    printerTypes,
-    themes,
     updateConfig,
     updateValue
 } from './utils';
 
 import styles from './styles';
 import FewSelector from "./Components/FewSelector";
+import {ThreedyCondition, ThreedyPrinter, ThreedyTheme} from '../types';
 
 
 const Configurator = ({ hass, config, threedy }) => {
@@ -37,7 +36,7 @@ const Configurator = ({ hass, config, threedy }) => {
     const _updateConfig = ( updates ) => setModifiedConfig( updateConfig(threedy, modifiedConfig, updates) );
     const _updateValue = (key, value) => updateValue( _updateConfig, key, value);
 
-    if (!config) return (<div></div>)
+    if (!config) return (<div/>)
 
     // @ts-ignore
     return (
@@ -59,7 +58,7 @@ const Configurator = ({ hass, config, threedy }) => {
                             <p style={{ ...styles.Label }}>Printer Type</p>
                             <Select
                                 placeholder="Select..."
-                                options={ printerTypes }
+                                options={ ThreedyPrinter }
                                 onSelect={({key, value}) => _updateValue('printer_type', value)}
                                 initial={config.printer_type}
                             />
@@ -73,7 +72,7 @@ const Configurator = ({ hass, config, threedy }) => {
 
                             <p style={{ ...styles.Label }}>Monitored</p>
                             <MultiSelector
-                                items={conditions}
+                                items={ ThreedyCondition }
                                 initial={config.monitored}
                                 onChange={selectedValues => _updateValue('monitored', selectedValues)}
                             />
@@ -116,7 +115,7 @@ const Configurator = ({ hass, config, threedy }) => {
                                 <p style={{ ...styles.Label }}>Theme</p>
                                 <Select
                                     placeholder={"Select..."}
-                                    options={ themes }
+                                    options={ ThreedyTheme }
                                     onSelect={({key, value}) => _updateValue('theme', value)}
                                     initial={config.theme}
                                 />
@@ -215,7 +214,7 @@ const Configurator = ({ hass, config, threedy }) => {
 
                     </motion.div>
 
-                ) : (null) : (null)
+                ) : null : null
             }
 
 

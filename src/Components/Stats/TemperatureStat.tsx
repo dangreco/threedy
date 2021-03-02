@@ -66,8 +66,8 @@ const temperature = (
     const tc: number = convertTemperature(t, u, config.temperature_unit || u);
 
     return `${
-        config.round_temperature ? Math.round(tc) : tc
-    }°${u}`
+        config.round_temperature ? Math.round(tc) : tc.toFixed(2)
+    }°${config.temperature_unit || u}`
 
 }
 

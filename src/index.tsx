@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import NotConfigured from './Components/NotConfigured';
 import ThreedyWrapper from "./Components/ThreedyWrapper";
 import Configurator from './Configurator';
+import {HomeAssistant, ThreedyConfig} from "./types";
 
 class ThreedyEditor extends HTMLElement {
 
-    _hass;
-    _config;
+    _hass: HomeAssistant | undefined;
+    _config: ThreedyConfig | undefined;
 
     constructor()
     {
@@ -45,8 +46,8 @@ customElements.define('threedy-editor', ThreedyEditor);
 
 class ThreedyCard extends HTMLElement {
 
-    _hass;
-    _config;
+    _hass: HomeAssistant | undefined;
+    _config: ThreedyConfig | undefined;
 
 
     connectedCallback() {

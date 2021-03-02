@@ -1,10 +1,10 @@
-import { Scale, Scaled } from '../../Utils/Scale';
+import { Scale } from '../../Utils/Scale';
 
 const getDimensions = (config, bounds, haScaleFactor) => {
 
     /* We estimate the initial scale factor based on the height of the frame, then compound with set factor */
     const scale = new Scale( (bounds.height / (config.top.height + config.bottom.height + config.left.height)) * haScaleFactor );
-    
+
 
     /* Frame */
     const F_W = scale.val(config.top.width); // Width
@@ -21,7 +21,7 @@ const getDimensions = (config, bounds, haScaleFactor) => {
     const H_T = scale.val(config.top.height); // Top
 
     /* Basis */
-    const BASIS_Y = scale.val(config.top.height - config.buildplate.verticalOffset) + H_H; 
+    const BASIS_Y = scale.val(config.top.height - config.buildplate.verticalOffset) + H_H;
     const BASIS_X = BASIS_Y  + scale.val((config.xAxis.extruder.height - config.xAxis.height) / 2 - (config.xAxis.extruder.height + 12));
 
     /* Build Area */
@@ -51,7 +51,7 @@ const getDimensions = (config, bounds, haScaleFactor) => {
     const E_M = E_L + B_W;
 
     /* Nozzle */
-    const N_W = scale.val(12); 
+    const N_W = scale.val(12);
     const N_H = scale.val(12);
     const N_L = (E_W - N_W) / 2;
     const N_T = E_H;

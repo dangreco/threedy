@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown, FiChevronUp, FiCheck } from 'react-icons/fi';
+import {Enum} from "../../../types";
 
 
 const Item = ({ item, selected, available, reorder, toggle }) => {
@@ -54,9 +55,15 @@ const Item = ({ item, selected, available, reorder, toggle }) => {
 
 };
 
-const MultiSelector = ({ items, initial = [], onChange = (s) => { } }) => {
+type MultiSelectorProps = {
+    items: Enum;
+    initial: any[];
+    onChange(s: any);
+}
 
-    const stock = items;
+const MultiSelector: React.FC<MultiSelectorProps> = ({ items, initial = [], onChange = (s) => { } }) => {
+
+    const stock = Object.values(items);
     const [selected, setSelected] = useState(initial);
     const [available, setAvailable] = useState(
         stock.filter(item => !initial.includes(item))
@@ -106,7 +113,7 @@ const MultiSelector = ({ items, initial = [], onChange = (s) => { } }) => {
                 ...selected,
                 item
             ])
-            
+
 
         }
 

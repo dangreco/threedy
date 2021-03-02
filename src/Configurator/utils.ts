@@ -1,25 +1,7 @@
-const conditions = [
-    'Status',
-    'ETA',
-    'Elapsed',
-    'Hotend',
-    'Bed',
-    'Remaining'
-];
-
-const printerTypes = {
-    "I3": "I3",
-    "Cantilever": "Cantilever"
-}
-
-const themes = {
-    'Default': 'Default',
-    'Neumorphic': 'Neumorphic'
-}
-
+import {HomeAssistant, ThreedyConfig} from "../types";
 
 /* Printer Entity ID -> Name; E.G. sensor.printer_name_current_state -> Printer Name */
-const printerName = ( entityId ) => {
+const printerName = ( entityId: string | undefined ) => {
 
     if ( !entityId ) {
         return undefined;
@@ -35,7 +17,7 @@ const printerName = ( entityId ) => {
 }
 
 /* Printer Entity ID -> Base Entity; E.G. sensor.printer_name_current_state -> sensor.printer_name */
-const printerBase = ( entityId ) => {
+const printerBase = ( entityId: string | undefined ) => {
 
     if ( !entityId ) {
         return undefined;
@@ -46,7 +28,7 @@ const printerBase = ( entityId ) => {
 
 }
 
-const getPrinters = ( hass ) => {
+const getPrinters = ( hass: HomeAssistant ) => {
 
     const printers = {};
     Object.keys( hass.states ).filter(
@@ -55,9 +37,7 @@ const getPrinters = ( hass ) => {
         entityId => {
 
             const name = printerName(entityId);
-            const base = printerBase(entityId);
-
-            printers[name] = base;
+            printers[name] = printerBase(entityId);
 
         }
     )
@@ -66,7 +46,7 @@ const getPrinters = ( hass ) => {
     return printers;
 }
 
-const getToggleables = ( hass ) => {
+const getToggleables = ( hass: HomeAssistant) => {
 
     const toggleables = {};
 
@@ -78,7 +58,7 @@ const getToggleables = ( hass ) => {
 
 }
 
-const getCameras = ( hass ) => {
+const getCameras = ( hass: HomeAssistant ) => {
 
     const cameras = {};
 
@@ -90,19 +70,29 @@ const getCameras = ( hass ) => {
 
 }
 
-/* Updates the Threedy Card config given updates */
-const updateConfig = ( threedy, modifiedConfig, updates ) => {
+type ConfigEventData = {
+    config: ThreedyConfig;
+}
 
-    const event = new Event("config-changed", {
+interface ConfigEvent extends Event {
+    detail: ConfigEventData
+}
+
+/* Updates the Threedy Card config given updates */
+const updateConfig = ( threedy: HTMLElement, modifiedConfig: ThreedyConfig, updates: object ) => {
+
+    const event: ConfigEvent = new Event("config-changed", {
         bubbles: true,
         composed: true
-    });
+    }) as ConfigEvent;
+
     event.detail = {
         config: {
             ...modifiedConfig,
             ...updates
         }
     };
+
     threedy.dispatchEvent(event);
 
     return event.detail.config;
@@ -116,9 +106,6 @@ const updateValue = ( _updateConfig, key, value ) => {
 
 
 export {
-    conditions,
-    printerTypes,
-    themes,
     printerName,
     getPrinters,
     getToggleables,

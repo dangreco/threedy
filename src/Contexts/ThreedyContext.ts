@@ -1,6 +1,12 @@
 import React from 'react';
+import {HomeAssistant, ThreedyConfig} from "../types";
 
-const ThreedyContext = React.createContext({
+type ThreedyContextType = {
+    hass: HomeAssistant;
+    config: ThreedyConfig;
+}
+
+const ThreedyContext = React.createContext<ThreedyContextType>({
     hass: {},
     config: {}
 })

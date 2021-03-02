@@ -1,13 +1,18 @@
-const HapticStrength = {
-    light: 'light',
-    medium: 'medium',
-    heavy: 'heavy'
+enum HapticStrength {
+    Light = "light",
+    Medium = "medium",
+    Heavy = "heavy"
 }
 
-const fireHaptic = ( hapticStrength = HapticStrength.medium ) => {
+interface HapticEvent extends Event {
+    detail: HapticStrength
+}
 
-    const event = new Event("haptic");
+const fireHaptic = ( hapticStrength: HapticStrength = HapticStrength.Medium ) => {
+
+    const event: HapticEvent = (new Event("haptic")) as HapticEvent;
     event.detail = hapticStrength;
+
     if (window)
         window.dispatchEvent(event);
 

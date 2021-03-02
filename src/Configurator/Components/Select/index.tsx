@@ -5,6 +5,7 @@ import useEventListener from "@use-it/event-listener";
 import { FiChevronDown } from 'react-icons/fi';
 
 import styles from './styles';
+import {Enum} from "../../../types";
 
 const Option = ({ onClick, children }) => {
 
@@ -33,7 +34,14 @@ const Option = ({ onClick, children }) => {
 
 };
 
-const Select = ({ options, placeholder, initial, onSelect = (s) => { } }) => {
+type SelectProps = {
+    options: Enum;
+    placeholder: string;
+    initial: string;
+    onSelect(s: any);
+}
+
+const Select: React.FC<SelectProps> = ({ options, placeholder, initial, onSelect = (s) => { } }) => {
 
     const [selection, setSelection] = useState(initial);
     const [hidden, setHidden] = useState(true);

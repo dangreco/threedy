@@ -23,6 +23,11 @@ export enum ThreedyTemperatureUnit {
     C = "C"
 }
 
+
+export type Enum = {
+    [key: number]: any;
+}
+
 export type ThreedyConfig = {
 
     type: string,
@@ -59,5 +64,6 @@ import {
 
 export interface HomeAssistant {
     states: HassEntities;
+    callService (domain: string, service: string, serviceData?: object, target?: any): Promise<any>;
     [propName: string] : any;
 }
