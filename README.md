@@ -92,7 +92,8 @@
 - ```theme``` &mdash; Theme of the card: ```'Default' | 'Neumorphic' ```. Screenshots listed below.
 - ```font``` &mdash; Specify the font used in the card. By default it is ```sans-serif```.
 - ```scale``` &mdash; The scale factor of the animated 3D printer view. Try different values until you find one you like.
-- ```round``` &mdash; Specify whether to round decimal numbers in the card. Defaults to true. ```true | false```
+- ```round_time``` &mdash; Specify whether to round durations of time. Defaults to false. ```true | false```
+- ```round_temperature``` &mdash; Specify whether to round decimal numbers for temperatures. Defaults to false. ```true | false```
 - ```temperature_unit``` &mdash; Specify which unit of temperature measurement to convert to. ```'F' | 'C' ```
 - ```use_24hr``` &mdash; Use 24 hour time format instead of 12 hour.
 - ```use_mqtt``` &mdash; Use [MQTT integration](https://plugins.octoprint.org/plugins/homeassistant/) instead of OctoPrint API.
