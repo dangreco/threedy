@@ -6,7 +6,7 @@ import I3 from '../../Printers/I3';
 
 import styles from './styles';
 
-const PrinterView = ({ toggleVideo, hasCamera }) => {
+const PrinterView = ({ toggleVideo, hasCamera, style }) => {
 
     const {
         hass,
@@ -45,6 +45,7 @@ const PrinterView = ({ toggleVideo, hasCamera }) => {
             ref={ref}
             style={{
                 ...styles.PrinterView,
+                ...style,
                 cursor: hasCamera ? 'pointer' : 'default'
             }}
         >

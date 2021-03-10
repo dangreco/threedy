@@ -55,10 +55,10 @@ type TimeStatProps = {
 
 const TimeStat: React.FC<TimeStatProps> = ({timeEntity, condition, config, direction}) => {
 
-    const [ time, setTime ] = useState<number>( timeEntity.state || 0);
+    const [ time, setTime ] = useState<number>( parseInt(timeEntity.state) || 0);
     const [ lastIntervalId, setLastIntervalId ] = useState<number>(-1);
 
-    const incTime = () => setTime( time => time + direction );
+    const incTime = () => setTime( time => (parseInt(time) + parseInt(direction)) );
 
     useEffect(() => {
 
