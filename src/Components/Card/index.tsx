@@ -11,6 +11,7 @@ import Stats from '../Stats';
 
 import styles from './styles';
 import Camera from "../Camera";
+import {percentComplete} from "../Stats/utils";
 
 
 const Card = ({ }) => {
@@ -39,6 +40,9 @@ const Card = ({ }) => {
 
 
     const theme = config.theme || 'Default';
+    const vertical = config.vertical;
+    const round = config.round;
+    const percent = percentComplete(hass, config);
 
 
     const borderRadius = styles[theme] ? styles[theme].borderRadius : styles['Default'].borderRadius;
@@ -131,24 +135,31 @@ const Card = ({ }) => {
                 </div>
 
                 <motion.div
-                    style={{ ...styles.Content }}
+                    style={{ ...styles.Content, flexDirection: vertical ? 'column' : 'row' }}
                     animate={{ height: hidden ? 0.0 : 'auto', opacity: hidden ? 0.0 : 1.0, scale: hidden ? 0.0 : 1.0 }}
                     transition={{ ease: "easeInOut", duration: 0.25 }}
                 >
-                    <div style={{ ...styles.Section }}>
+                    <div style={{ ...styles.Section, width: vertical ? '100%' : '50%', height: vertical ? 'auto' : '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingLeft: vertical ? 80 : 16, paddingRight: vertical ? 80 : 16 }}>
                         <PrinterView
                             toggleVideo={toggleVideo}
                             hasCamera={config.camera_entity !== undefined}
                         />
+                        {
+                            vertical ? (
+                                <p style={{ width: '50%', fontSize: 36 }}>{round ? Math.round(percent) : percent}%</p>
+                            ) : null
+                        }
                     </div>
                     <div
                         style={{
                             ...styles.Section,
-                            paddingLeft: 16,
-                            paddingRight: 32
+                            paddingLeft: vertical ? 64 : 16,
+                            paddingRight: vertical ? 64 : 32,
+                            width: vertical ? '100%' : '50%',
+                            height: vertical ? 'auto' : '100%'
                         }}
                     >
-                        <Stats />
+                        <Stats showPercent={!vertical} />
                     </div>
                 </motion.div>
 

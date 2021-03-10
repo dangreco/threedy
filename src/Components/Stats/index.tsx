@@ -2,10 +2,13 @@ import React, { useContext } from 'react';
 import ThreedyContext from '../../Contexts/ThreedyContext';
 
 import styles from './styles';
-import {renderStats} from "./utils";
+import {percentComplete, renderStats} from "./utils";
 
+type StatsProps = {
+    showPercent?: boolean
+};
 
-const Stats = () => {
+const Stats: React.FC<StatsProps> = ({ showPercent = true }) => {
 
     const {
         hass,
@@ -13,13 +16,17 @@ const Stats = () => {
     } = useContext(ThreedyContext);
 
     const round = config.round === undefined ? true : config.round;
-    const percentComplete = (hass.states[config.use_mqtt ? `${config.base_entity}_print_progress` : `${config.base_entity}_job_percentage`] || { state: -1.0 }).state;
+    const percent = percentComplete(hass, config);
 
     return (
         <div style={{ ...styles.Stats }}>
-            <div style={{ ...styles.Percent }}>
-                <p style={{ ...styles.PercentText }}>{round ? Math.round(percentComplete) : percentComplete}%</p>
-            </div>
+            {
+                showPercent ? (
+                    <div style={{ ...styles.Percent }}>
+                        <p style={{ ...styles.PercentText }}>{round ? Math.round(percent) : percent}%</p>
+                    </div>
+                ) : (null)
+            }
             <div style={{ ...styles.Monitored }}>
                 {
                     config.monitored ? renderStats(hass, config) : null

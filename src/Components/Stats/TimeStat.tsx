@@ -56,16 +56,23 @@ type TimeStatProps = {
 const TimeStat: React.FC<TimeStatProps> = ({timeEntity, condition, config, direction}) => {
 
     const [ time, setTime ] = useState<number>( timeEntity.state || 0);
+    const [ lastIntervalId, setLastIntervalId ] = useState<number>(-1);
+
+    const incTime = () => setTime( time => time + direction );
 
     useEffect(() => {
-        setInterval(
-            () => setTime(time => time + direction),
+
+        if (lastIntervalId !== -1) clearInterval(lastIntervalId);
+
+        setTime(timeEntity.state || 0);
+
+        const id = setInterval(
+            incTime,
             1000
         );
-    }, [])
 
-    useEffect(() => {
-        setTime(timeEntity.state || 0);
+        setLastIntervalId(id);
+
     }, [timeEntity])
 
     return (

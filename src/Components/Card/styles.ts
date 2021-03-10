@@ -13,8 +13,6 @@ const styles = {
     },
     Section: {
         boxSizing: 'border-box',
-        width: '50%',
-        height: '100%',
         padding: '0 16px 32px 16px'
     },
     Default: {
@@ -60,7 +58,6 @@ const styles = {
     Content: {
         width: '100%',
         display: 'flex',
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         boxSizing: 'border-box'
