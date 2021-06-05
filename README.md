@@ -1,3 +1,7 @@
+# **!!! NOTE: !!!**
+### I am currently working on a rewrite for this card with `preact` instead of `react`. This will yield a lighter-weight card. I will also be tackling the bugs opened as issues in this rewrite -- using TypeScript from the get-go will help this (versus when I swittched mid-development). Thank you for your support and patience!!!
+
+
 
 # threedy
 ## Home Asssistant card for 3D printers (via OctoPrint integration)
