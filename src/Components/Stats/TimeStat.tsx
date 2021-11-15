@@ -45,6 +45,25 @@ const renderTime = (
     }
 }
 
+const getTotalSeconds = (
+    timeEntity: HassEntity,
+    config: ThreedyConfig
+) => { 
+    let result;   
+    if(!config.use_mqtt){
+        result = parseInt(timeEntity.state) || 0;
+    } else {
+        if(timeEntity.state){
+            const [hours, minutes, seconds] = timeEntity.state.split(':');
+            result = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+
+        } else {
+            result = 0;
+        }
+    }
+    return result;
+}
+
 
 type TimeStatProps = {
     timeEntity: HassEntity,
@@ -54,8 +73,8 @@ type TimeStatProps = {
 }
 
 const TimeStat: React.FC<TimeStatProps> = ({timeEntity, condition, config, direction}) => {
-
-    const [ time, setTime ] = useState<number>( parseInt(timeEntity.state) || 0);
+    const totalSeconds = getTotalSeconds(timeEntity, config);
+    const [ time, setTime ] = useState<number>(totalSeconds);
     const [ lastIntervalId, setLastIntervalId ] = useState<number>(-1);
 
     const incTime = () => setTime( time => (parseInt(time) + parseInt(direction)) );
@@ -64,7 +83,7 @@ const TimeStat: React.FC<TimeStatProps> = ({timeEntity, condition, config, direc
 
         if (lastIntervalId !== -1) clearInterval(lastIntervalId);
 
-        setTime(timeEntity.state || 0);
+        setTime(getTotalSeconds(timeEntity, config));
 
         const id = setInterval(
             incTime,
