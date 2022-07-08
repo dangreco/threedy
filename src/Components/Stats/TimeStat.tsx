@@ -54,8 +54,15 @@ const getTotalSeconds = (
         result = parseInt(timeEntity.state) || 0;
     } else {
         if(timeEntity.state){
-            const [hours, minutes, seconds] = timeEntity.state.split(':');
-            result = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+            if(timeEntity.state.includes(", ")){
+                const [days_string, time_string] = timeEntity.state.split(', ');
+                const [hours, minutes, seconds] = time_string.split(':');
+                const days = days_string.match(/\d+/)[0];
+                result = (+days) * 60 * 60 * 24 + (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+            } else {
+                const [hours, minutes, seconds] = timeEntity.state.split(':');
+                result = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+            }
 
         } else {
             result = 0;
