@@ -1,0 +1,18 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "jsxFactory": "",
+    "jsxFragmentFactory": "",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "react": ["./node_modules/preact/compat/"],
+      "react-dom": ["./node_modules/preact/compat/"],
+      "@shared/*": ["./src/shared/*"],
+      "@types": ["./src/types.ts"]
+    }
+  }
+}

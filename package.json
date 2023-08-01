@@ -1,0 +1,52 @@
+{
+  "name": "threedy",
+  "version": "2.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src/**/*",
+    "format": "prettier --write src/**/*",
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "eslintConfig": {
+    "extends": "@kombu/eslint-config",
+    "rules": {
+      "react/prop-types": 0
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@babel/register": "^7.22.5",
+    "@kombu/eslint-config": "^1.0.6",
+    "@kombu/prettier-config": "^1.0.6",
+    "@prefresh/babel-plugin": "^0.5.0",
+    "@prefresh/webpack": "^4.0.0",
+    "@tsconfig/recommended": "^1.0.2",
+    "@types/chroma-js": "^2.4.0",
+    "@types/prefresh__webpack": "^3.3.0",
+    "@types/webpack": "^5.28.1",
+    "babel-loader": "^9.1.3",
+    "eslint": "^8.46.0",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "@kombu/react": "^1.0.5",
+    "@kombu/react-styled-components": "^1.0.5",
+    "chroma-js": "^2.4.2",
+    "custom-card-helpers": "^1.9.0",
+    "home-assistant-js-websocket": "^8.2.0",
+    "jotai": "^2.2.3",
+    "preact": "^10.16.0",
+    "styled-components": "^6.0.5"
+  }
+}
